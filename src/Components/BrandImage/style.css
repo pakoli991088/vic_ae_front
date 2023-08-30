@@ -1,0 +1,13 @@
+.img {
+    height: 550px;
+    margin: 0 auto;
+}
+
+.img_div {
+    display: inline-grid
+}
+
+.company_name_text {
+    text-align: center;
+    color: rgb(20, 52, 104);
+}

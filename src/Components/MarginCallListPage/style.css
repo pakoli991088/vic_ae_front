@@ -1,0 +1,12 @@
+.img {
+    height: 250px;
+    margin: 0 auto;
+}
+
+.img_div {
+    display: inline-grid
+}
+
+p {
+    color: blue;
+}
