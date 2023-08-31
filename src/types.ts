@@ -4,7 +4,7 @@ export type SelectedData = {
     acName: string;
     balanceAmount: string;
     stockValue: string;
-    guaranteedAmount: string;
+    marginCallAmount: string;
     followUpResult: string;
     remark: string;
     confirmDate: string;

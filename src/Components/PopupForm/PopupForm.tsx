@@ -115,7 +115,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                         <label>股票市值:</label>
                         <p>{data.stockValue}</p>
                         <label>追收保證金額:</label>
-                        <p>{data.guaranteedAmount}</p>
+                        <p>{data.marginCallAmount}</p>
                         <div className="form-group">
                             <h5 className="modal-title">AE Reply 回覆</h5>
                             {viewOnly ? (

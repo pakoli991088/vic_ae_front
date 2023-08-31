@@ -12,7 +12,7 @@ export const MarginCallList = () => {
             acName: 'HIGH BEYOND HOLDINGS LIMITED',
             balanceAmount: '(6,024,512.74)',
             stockValue: '(3,772,179.79)',
-            guaranteedAmount: '1234.3214',
+            marginCallAmount: '1234.3214',
             followUpResult: '存錢',
             remark: 'DaphneDaphneDaphneDaphneDaphneDaphne',
             confirmDate: '5/3/2022'
@@ -23,7 +23,7 @@ export const MarginCallList = () => {
             acName: 'LOW BEYOND HOLDINGS LIMITED',
             balanceAmount: '(5,024,512.74)',
             stockValue: '(2,772,179.79)',
-            guaranteedAmount: '-',
+            marginCallAmount: '-',
             followUpResult: '存款',
             remark: 'Daphne1',
             confirmDate: '5/3/2022'
@@ -57,7 +57,7 @@ export const MarginCallList = () => {
                     <th>AC Name</th>
                     <th>Balance Amount</th>
                     <th>Stock Value</th>
-                    <th>Guaranteed Amount</th>
+                    <th>Margin Call Amount</th>
                     <th>Follow Up Result</th>
                     <th>Remark</th>
                     <th>Confirm Date</th>
@@ -72,7 +72,7 @@ export const MarginCallList = () => {
                         <td>{item.acName}</td>
                         <td>{item.balanceAmount}</td>
                         <td>{item.stockValue}</td>
-                        <td>{item.guaranteedAmount}</td>
+                        <td>{item.marginCallAmount}</td>
                         <td>{item.followUpResult}</td>
                         <td>{item.remark}</td>
                         <td>{item.confirmDate}</td>
