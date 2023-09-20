@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import "./style.css";
 import {BrandImage} from "../BrandImage/BrandImage";
 

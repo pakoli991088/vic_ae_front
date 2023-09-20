@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import {App} from './App';
-import {AppRouter} from "./AppRouter";
+import {BrowserRouter} from "react-router-dom";
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-      <AppRouter />
-  </React.StrictMode>
+    <BrowserRouter>
+          <App/>
+    </BrowserRouter>
 );
 

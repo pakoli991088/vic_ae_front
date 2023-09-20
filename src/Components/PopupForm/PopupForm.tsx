@@ -137,9 +137,9 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                                     <option value="存款">存款</option>
                                     <option value="存貨">存貨</option>
                                     <option value="沽貨">沽貨</option>
-                                    <option value="跟進中">跟進中</option>
-                                    <option value="觀察股價">觀察股價</option>
-                                    <option value="股價上升">股價上升</option>
+                                    {/*<option value="跟進中">跟進中</option>*/}
+                                    {/*<option value="觀察股價">觀察股價</option>*/}
+                                    {/*<option value="股價上升">股價上升</option>*/}
                                     <option value="合併其他帳戶">合併其他帳戶</option>
                                     <option value="擔保">擔保</option>
                                     <option value="其他">其他</option>
