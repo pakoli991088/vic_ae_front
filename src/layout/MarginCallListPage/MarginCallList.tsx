@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import "./style.css"
 import {Navbar} from "../NavBar/Navbar";
-import {PopupForm} from "../PopupForm/PopupForm";
+import {PopupForm} from "./Components/PopupForm/PopupForm";
 import {SelectedData} from "../../types";
 
 export const MarginCallList = () => {

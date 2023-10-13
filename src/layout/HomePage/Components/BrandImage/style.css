@@ -1,10 +1,7 @@
 .img {
-    height: 550px;
     margin: 0 auto;
-}
-
-.img_div {
-    display: inline-grid
+    width: 50%;
+    min-width : 290px;
 }
 
 .company_name_text {

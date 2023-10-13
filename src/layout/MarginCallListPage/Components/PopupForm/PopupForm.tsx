@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {SelectedData} from "../../types";
+import {SelectedData} from "../../../../types";
 
 type PopupFormProps = {
     data: SelectedData;
