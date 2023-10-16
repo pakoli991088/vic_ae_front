@@ -15,9 +15,9 @@ export const App = () => {
                         <HomePage/>
                     </Route>
 
-                    <Route path='/margin-call'>
-                        <MarginCallList/>
-                    </Route>
+                    {/*<Route path='/margin-call'>*/}
+                    {/*    <MarginCallList/>*/}
+                    {/*</Route>*/}
                 </Switch>
             </div>
         </div>

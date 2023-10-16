@@ -48,7 +48,6 @@ export const MarginCallList = () => {
 
     return (
         <div>
-            <Navbar/>
             <table className="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>

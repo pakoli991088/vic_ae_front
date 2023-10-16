@@ -1,4 +1,4 @@
-import companyLogo from "./image/small.png"
+import companyLogo from "./image/20231016-093842.png"
 import React from "react";
 import "./style.css"
 import {Link} from "react-router-dom";
