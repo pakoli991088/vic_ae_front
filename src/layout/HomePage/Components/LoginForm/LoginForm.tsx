@@ -1,12 +1,21 @@
 import "./style.css";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import Cookies from 'js-cookie';
+import showNotification from "../../../Utils/Notification";
 
 export const LoginForm = () => {
     // 初始化 email 狀態
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [notificationMessage,setNotificationMessage] = useState("default error")
+    const handleSuccessAlert = () => {
+        showNotification({type: 'success', message: notificationMessage})
+    };
+    const handleErrorAlert = () => {
+        showNotification({type: 'error', message: notificationMessage})
+    };
 
     // 檢查本地存儲中是否有 email，如果有，則將其設置為初始值
     useEffect(() => {
@@ -39,31 +48,38 @@ export const LoginForm = () => {
             password: password,
         })
             .then((response) => {
-                // 登錄成功，處理響應
                 console.log(response);
+                // 登錄成功，處理響應
                 if (response.data.status === "success") {
+                    Cookies.set('tempTokens', response.data.data.tempTokens, { expires: 1 });
                     // 將 email 存儲到本地存儲，如果 "Check me out" 被勾選
                     const checkbox = document.getElementById("exampleCheck1") as HTMLInputElement;
                     if (checkbox.checked) {
                         localStorage.setItem("userEmail", email);
                     }
                     // 跳轉到 '/margin-call' 路由
-                    // window.location.href = '/margin-call';
+                    setNotificationMessage("login success"); //未解決!!!
+                    handleSuccessAlert();   //未解決!!!
+                    window.location.href = '/margin-call';
                 } else {
                     // 登錄失敗，顯示錯誤消息
+                    setNotificationMessage(response.data.msg); //未解決!!!
+                    handleErrorAlert();   //未解決!!!
                     setError(response.data.msg);
                 }
             })
             .catch((error) => {
                 // 處理錯誤
                 setError("Sorry , system error !");
+                setNotificationMessage("Sorry , system error !"); //未解決!!!
+                handleErrorAlert();   //未解決!!!
             });
     };
 
     return (
         <form className="container mt-5" onSubmit={handleSubmit}>
             <div className="mb-3 text-center">
-                <label htmlFor="exampleInputEmail1" className="form-label" id="email">
+                <label htmlFor="exampleInputEmail1" className="form-label " id="email">
                     Email address
                 </label>
                 <div className="d-flex justify-content-center">
