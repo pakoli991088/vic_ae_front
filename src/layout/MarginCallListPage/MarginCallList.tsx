@@ -64,7 +64,7 @@ export const MarginCallList = () => {
             axios.post('http://localhost:8080/user/varify-token', { token })
                 .then((response) => {
                     if (response.data.status === "success") {
-                        console.log(response);GIT
+                        console.log(response);
                         // 验证成功，获取数据
                         axios.get('YOUR_DATA_API_ENDPOINT')
                             .then((dataResponse) => {
