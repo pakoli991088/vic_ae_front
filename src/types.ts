@@ -1,11 +1,11 @@
 export type SelectedData = {
-    notificationDate: string;
-    acNo: string;
-    acName: string;
-    balanceAmount: string;
-    stockValue: string;
-    marginCallAmount: string;
-    followUpResult: string;
-    remark: string;
-    confirmDate: string;
+    notificationDate: String;
+    acNo: String;
+    acName: String;
+    balanceAmount: Number;
+    stockValue: Number;
+    marginCallAmount: Number;
+    followUpResult: String;
+    remark: String;
+    confirmDate: String;
 };

@@ -25,6 +25,10 @@ export const LoginForm = () => {
         }
     }, []);
 
+    useEffect(() => {
+
+    },[notificationMessage])
+
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
@@ -39,6 +43,7 @@ export const LoginForm = () => {
             localStorage.setItem("userEmail", email);
         }
     };
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault(); // 防止表單默認提交行為

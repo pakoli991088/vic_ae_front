@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {SelectedData} from "../../../../types";
+import {MarginCallData} from "../../MarginCallData";
 
 type PopupFormProps = {
-    data: SelectedData;
+    data: MarginCallData;
     onClose: () => void;
     viewOnly: boolean;
 
@@ -111,11 +112,11 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                         <label>帳戶名稱:</label>
                         <p>{data.acName}</p>
                         <label>結欠金額:</label>
-                        <p>{data.balanceAmount}</p>
+                        <p>{data.balanceAmount.toString()}</p>
                         <label>股票市值:</label>
-                        <p>{data.stockValue}</p>
+                        <p>{data.stockValue.toString()}</p>
                         <label>追收保證金額:</label>
-                        <p>{data.marginCallAmount}</p>
+                        <p>{data.guaranteedAmount.toString()}</p>
                         <div className="form-group">
                             <h5 className="modal-title">AE Reply 回覆</h5>
                             {viewOnly ? (

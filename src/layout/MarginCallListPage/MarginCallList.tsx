@@ -5,34 +5,15 @@ import {SelectedData} from "../../types";
 import Cookies from "js-cookie";
 import axios from "axios";
 import showNotification from "../Utils/Notification";
+import {MarginCallData} from "./MarginCallData";
 
 export const MarginCallList = () => {
-    const data = [
-        {
-            notificationDate: '2022-05-03',
-            acNo: 'M881326',
-            acName: 'HIGH BEYOND HOLDINGS LIMITED',
-            balanceAmount: '(6,024,512.74)',
-            stockValue: '(3,772,179.79)',
-            marginCallAmount: '1234.3214',
-            followUpResult: '存錢',
-            remark: 'DaphneDaphneDaphneDaphneDaphneDaphne',
-            confirmDate: '5/3/2022'
-        },
-        {
-            notificationDate: '2022-05-03',
-            acNo: 'M881426',
-            acName: 'LOW BEYOND HOLDINGS LIMITED',
-            balanceAmount: '(5,024,512.74)',
-            stockValue: '(2,772,179.79)',
-            marginCallAmount: '-',
-            followUpResult: '存款',
-            remark: 'Daphne1',
-            confirmDate: '5/3/2022'
-        },
-        // ...添加其他数据
-    ];
-    const [notificationMessage,setNotificationMessage] = useState("default error")
+    const [data , setData] = useState<MarginCallData[]>([]);
+    const [notificationMessage,setNotificationMessage] = useState("default error");
+    // const [followUpResult , setFollowUpResult] = useState('');
+    // const [remark , setRemark] = useState('');
+    // const [confirmDate , setConfirmDate] = useState('');
+    // const [loading, setLoading] = useState(true);
     const handleSuccessAlert = () => {
         showNotification({type: 'success', message: notificationMessage})
     };
@@ -40,20 +21,17 @@ export const MarginCallList = () => {
         showNotification({type: 'error', message: notificationMessage})
     };
 
-    const [loading, setLoading] = useState(true);
-
     const [isPopupOpen, setPopupOpen] = useState(false);
-    const [selectedData, setSelectedData] = useState<SelectedData | null>(null);
+    // const [selectedData, setSelectedData] = useState<SelectedData | null>(null);
     const [viewOnly, setViewOnly] = useState(false);
 
-    const openPopup = (data:SelectedData, isViewOnly:boolean) => {
-        setSelectedData(data);
+    const openPopup = (data:MarginCallData, isViewOnly:boolean) => {
+        // setData(data);
         setPopupOpen(true);
         setViewOnly(isViewOnly);
     };
-
     const closePopup = () => {
-        setSelectedData(null);
+        setData([]);
         setPopupOpen(false);
     };
 
@@ -61,13 +39,15 @@ export const MarginCallList = () => {
         // 验证 token
         const token = Cookies.get('tempTokens');
         if (token) {
-            axios.post('http://localhost:8080/user/varify-token', { token })
+            axios.post('http://localhost:8080/user/verify-token', { token })
                 .then((response) => {
                     if (response.data.status === "success") {
                         console.log(response);
                         // 验证成功，获取数据
-                        axios.get('YOUR_DATA_API_ENDPOINT')
+                        axios.get('http://localhost:8080/margin-call/get/' + token)
                             .then((dataResponse) => {
+                                console.log(dataResponse);
+                                setData(dataResponse.data.data);
                             })
                             .catch((error) => {
                                 setNotificationMessage("get data error"); //未解決!!!
@@ -80,7 +60,7 @@ export const MarginCallList = () => {
                         // 例如: history.push('/login') 或 window.location.href = '/login'
                         // 或显示错误消息并从 Cookie 中删除 token
                         Cookies.remove('tempTokens');
-                        setLoading(false);
+                        // setLoading(false);
                         setNotificationMessage("Authentication failed , please login again"); //未解決!!!
                         handleErrorAlert();   //未解決!!!
                         window.location.href = '/'
@@ -88,7 +68,7 @@ export const MarginCallList = () => {
                 })
                 .catch((error) => {
                     console.error('Token 验证失败', error);
-                    setLoading(false);
+                    // setLoading(false);
                     setNotificationMessage("Authentication failed , Service Error"); //未解決!!!
                     handleErrorAlert();   //未解決!!!
                     window.location.href = '/'
@@ -97,12 +77,16 @@ export const MarginCallList = () => {
             // 未找到 token，可能需要重定向到登录页面
             // 你可以使用 react-router-dom 进行重定向
             // 例如: history.push('/login') 或 window.location.href = '/login'
-            setLoading(false);
+            // setLoading(false);
             setNotificationMessage("Please login"); //未解決!!!
             handleErrorAlert();   //未解決!!!
             window.location.href = '/'
         }
     }, []);
+
+    useEffect(() => {
+
+    },[data,notificationMessage])
 
 
     return (
@@ -123,17 +107,17 @@ export const MarginCallList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((item, index) => (
+                {data.map((item:MarginCallData, index) => (
                     <tr key={index}>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
+                        <td>{item.notificationDate}</td>
+                        <td>{item.acNo}</td>
+                        <td>{item.acName}</td>
+                        <td>{item.balanceAmount.toString()}</td>
+                        <td>{item.stockValue.toString()}</td>
+                        <td>{item.guaranteedAmount.toString()}</td>
+                        <td>{item.followUpResult?item.followUpResult:"請跟進"}</td>
+                        <td>{item.remark ? item.remark:" N/A"}</td>
+                        <td>{item.confirmDate? item.confirmDate : "尚未確認"}</td>
                         <td>
                         <div className="btn-group" role="group" aria-label="Basic mixed styles example">
                             <button type="button" className="btn btn-secondary"
@@ -148,9 +132,9 @@ export const MarginCallList = () => {
                 ))}
 
                 {/* Popup */}
-                {isPopupOpen && selectedData !== null && (
-                    <PopupForm data={selectedData} onClose={closePopup} viewOnly={viewOnly} />
-                )}
+                {/*{isPopupOpen && data !== null && (*/}
+                {/*    <PopupForm data={data} onClose={closePopup} viewOnly={viewOnly} />*/}
+                {/*)}*/}
 
                 </tbody>
             </table>
