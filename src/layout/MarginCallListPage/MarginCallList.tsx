@@ -9,7 +9,14 @@ import {MarginCallData} from "./MarginCallData";
 
 export const MarginCallList = () => {
     const [data , setData] = useState<MarginCallData[]>([]);
+    const today = new Date().toISOString().substr(0, 10);
     const [notificationMessage,setNotificationMessage] = useState("default error");
+    const [selectedData, setSelectedData] = useState<MarginCallData | null>(null);
+    const [selectedDate, setSelectedDate] = useState(today);
+
+    const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedDate(e.target.value);
+    };
     // const [followUpResult , setFollowUpResult] = useState('');
     // const [remark , setRemark] = useState('');
     // const [confirmDate , setConfirmDate] = useState('');
@@ -26,12 +33,12 @@ export const MarginCallList = () => {
     const [viewOnly, setViewOnly] = useState(false);
 
     const openPopup = (data:MarginCallData, isViewOnly:boolean) => {
-        // setData(data);
+        setSelectedData(data);
         setPopupOpen(true);
         setViewOnly(isViewOnly);
     };
     const closePopup = () => {
-        setData([]);
+        // setData([]);
         setPopupOpen(false);
     };
 
@@ -44,7 +51,7 @@ export const MarginCallList = () => {
                     if (response.data.status === "success") {
                         console.log(response);
                         // 验证成功，获取数据
-                        axios.get('http://localhost:8080/margin-call/get/' + token)
+                        axios.get('http://localhost:8080/margin-call/get/' + token + '/' + selectedDate)
                             .then((dataResponse) => {
                                 console.log(dataResponse);
                                 setData(dataResponse.data.data);
@@ -82,7 +89,7 @@ export const MarginCallList = () => {
             handleErrorAlert();   //未解決!!!
             window.location.href = '/'
         }
-    }, []);
+    }, [selectedDate]);
 
     useEffect(() => {
 
@@ -91,6 +98,10 @@ export const MarginCallList = () => {
 
     return (
         <div className="container">
+            <div className="mt-2 mb-2">
+                <input type="date" value={selectedDate} onChange={handleDateChange} />
+            </div>
+
             <table className="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
@@ -123,18 +134,24 @@ export const MarginCallList = () => {
                             <button type="button" className="btn btn-secondary"
                                     onClick={() => openPopup(item,true)}
                             >check</button>
-                            <button type="button" className="btn btn-dark"
-                                    onClick={() => openPopup(item,false)}
-                            >reply</button>
+                            {item.followUpResult === null && (  // 检查 followUpResult 是否有值
+                                <button
+                                    type="button"
+                                    className="btn btn-dark"
+                                    onClick={() => openPopup(item, false)}
+                                >
+                                    reply
+                                </button>
+                            )}
                         </div>
                         </td>
                     </tr>
                 ))}
 
                 {/* Popup */}
-                {/*{isPopupOpen && data !== null && (*/}
-                {/*    <PopupForm data={data} onClose={closePopup} viewOnly={viewOnly} />*/}
-                {/*)}*/}
+                {isPopupOpen && selectedData !== null && (
+                    <PopupForm data={selectedData} onClose={closePopup} viewOnly={viewOnly} />
+                )}
 
                 </tbody>
             </table>

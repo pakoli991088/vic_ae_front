@@ -22,7 +22,6 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     const handleSave = () => {
         // Perform save action here with form data
         // ...
-
         // Close the modal
         onClose();
     };
