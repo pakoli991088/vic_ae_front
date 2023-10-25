@@ -130,14 +130,14 @@ export const MarginCallList = () => {
                         <td>{item.remark ? item.remark:" N/A"}</td>
                         <td>{item.confirmDate? item.confirmDate : "尚未確認"}</td>
                         <td>
-                        <div className="btn-group" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" className="btn btn-secondary"
+                        <div className="" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" className="btn btn-secondary m-1"
                                     onClick={() => openPopup(item,true)}
                             >check</button>
                             {item.followUpResult === null && (  // 检查 followUpResult 是否有值
                                 <button
                                     type="button"
-                                    className="btn btn-dark"
+                                    className="btn btn-dark m-1"
                                     onClick={() => openPopup(item, false)}
                                 >
                                     reply

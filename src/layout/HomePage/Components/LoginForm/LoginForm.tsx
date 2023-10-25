@@ -57,6 +57,7 @@ export const LoginForm = () => {
                 // 登錄成功，處理響應
                 if (response.data.status === "success") {
                     Cookies.set('tempTokens', response.data.data.tempTokens, { expires: 1 });
+                    Cookies.set('username', response.data.data.username, { expires: 1 });
                     // 將 email 存儲到本地存儲，如果 "Check me out" 被勾選
                     const checkbox = document.getElementById("exampleCheck1") as HTMLInputElement;
                     if (checkbox.checked) {

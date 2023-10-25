@@ -9,3 +9,8 @@ img {
 .text-color-white {
     color: white;
 }
+
+.button_hover:hover {
+    background-color: rgb(20, 52, 104);
+}
+

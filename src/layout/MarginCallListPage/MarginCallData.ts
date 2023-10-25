@@ -1,5 +1,6 @@
 
 export interface MarginCallData  {
+    marginCallId:Number,
     notificationDate:String,
     acNo : String,
     acName : String,
@@ -9,6 +10,14 @@ export interface MarginCallData  {
     followUpResult:String,
     confirmDate:String,
     remark:String,
+
+    depositCurrency: String,
+    amount: Number,
+    stockNo: String,
+    stockQty: String,
+    mergeAcNo: String,
+    guaranteedAssets: String,
+
 }
 
 // export type SelectedData = {
