@@ -13,6 +13,8 @@ export const MarginCallList = () => {
     const [notificationMessage,setNotificationMessage] = useState("default error");
     const [selectedData, setSelectedData] = useState<MarginCallData | null>(null);
     const [selectedDate, setSelectedDate] = useState(today);
+    const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
+    const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
 
     const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setSelectedDate(e.target.value);
@@ -49,17 +51,18 @@ export const MarginCallList = () => {
             axios.post('http://localhost:8080/user/verify-token', { token })
                 .then((response) => {
                     if (response.data.status === "success") {
-                        console.log(response);
+                        // console.log(response);  //show user information
                         // 验证成功，获取数据
                         axios.get('http://localhost:8080/margin-call/get/' + token + '/' + selectedDate)
                             .then((dataResponse) => {
-                                console.log(dataResponse);
+                                // console.log(dataResponse);  // show marginCall data info
                                 setData(dataResponse.data.data);
                             })
                             .catch((error) => {
-                                setNotificationMessage("get data error"); //未解決!!!
-                                handleErrorAlert();   //未解決!!!
-                                console.error('获取数据失败', error);
+                                setNotificationMessage(error.get.message); //未解決!!!
+                                setShowHandleErrorAlert(true);
+                                // handleErrorAlert();   //未解決!!!
+                                // console.error('获取数据失败', error);
                             });
                     } else {
                         // 无效 token，重定向到登录页面或显示错误消息
@@ -68,16 +71,18 @@ export const MarginCallList = () => {
                         // 或显示错误消息并从 Cookie 中删除 token
                         Cookies.remove('tempTokens');
                         // setLoading(false);
-                        setNotificationMessage("Authentication failed , please login again"); //未解決!!!
-                        handleErrorAlert();   //未解決!!!
+                        setNotificationMessage(response.data.msg); //未解決!!!
+                        setShowHandleErrorAlert(true);
+                        // handleErrorAlert();   //未解決!!!
                         window.location.href = '/'
                     }
                 })
                 .catch((error) => {
-                    console.error('Token 验证失败', error);
+                    // console.error('Token 验证失败', error);
                     // setLoading(false);
                     setNotificationMessage("Authentication failed , Service Error"); //未解決!!!
-                    handleErrorAlert();   //未解決!!!
+                    setShowHandleErrorAlert(true);
+                    // handleErrorAlert();   //未解決!!!
                     window.location.href = '/'
                 });
         } else {
@@ -86,14 +91,22 @@ export const MarginCallList = () => {
             // 例如: history.push('/login') 或 window.location.href = '/login'
             // setLoading(false);
             setNotificationMessage("Please login"); //未解決!!!
-            handleErrorAlert();   //未解決!!!
+            setShowHandleErrorAlert(true);
+            // handleErrorAlert();   //未解決!!!
             window.location.href = '/'
         }
     }, [selectedDate]);
 
     useEffect(() => {
-
-    },[data,notificationMessage])
+        if(showHandleErrorAlert) {
+            handleErrorAlert();
+            setShowHandleErrorAlert(false);
+        }
+        if(showHandleSuccessAlert) {
+            handleSuccessAlert()
+            setShowHandleSuccessAlert(false);
+        }
+    },[notificationMessage,showHandleSuccessAlert,showHandleErrorAlert])
 
 
     return (
@@ -130,17 +143,17 @@ export const MarginCallList = () => {
                         <td>{item.remark ? item.remark:" N/A"}</td>
                         <td>{item.confirmDate? item.confirmDate : "尚未確認"}</td>
                         <td>
-                        <div className="" role="group" aria-label="Basic mixed styles example">
-                            <button type="button" className="btn btn-secondary m-1"
+                        <div className="d-flex" role="group" aria-label="Basic mixed styles example">
+                            <button type="button" className="btn btn-primary m-1"
                                     onClick={() => openPopup(item,true)}
-                            >check</button>
+                            >Check</button>
                             {item.followUpResult === null && (  // 检查 followUpResult 是否有值
                                 <button
                                     type="button"
                                     className="btn btn-dark m-1"
                                     onClick={() => openPopup(item, false)}
                                 >
-                                    reply
+                                    Reply
                                 </button>
                             )}
                         </div>

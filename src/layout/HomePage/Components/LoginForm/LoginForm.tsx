@@ -8,8 +8,10 @@ export const LoginForm = () => {
     // 初始化 email 狀態
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    // const [error, setError] = useState("");
     const [notificationMessage,setNotificationMessage] = useState("default error")
+    const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
+    const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
     const handleSuccessAlert = () => {
         showNotification({type: 'success', message: notificationMessage})
     };
@@ -26,8 +28,15 @@ export const LoginForm = () => {
     }, []);
 
     useEffect(() => {
-
-    },[notificationMessage])
+        if(showHandleErrorAlert) {
+            handleErrorAlert();
+            setShowHandleErrorAlert(false);
+        }
+        if(showHandleSuccessAlert) {
+            handleSuccessAlert()
+            setShowHandleSuccessAlert(false);
+        }
+    },[notificationMessage,showHandleSuccessAlert,showHandleErrorAlert])
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -65,20 +74,23 @@ export const LoginForm = () => {
                     }
                     // 跳轉到 '/margin-call' 路由
                     setNotificationMessage("login success"); //未解決!!!
-                    handleSuccessAlert();   //未解決!!!
+                    setShowHandleSuccessAlert(true);
+                    // handleSuccessAlert();   //未解決!!!
                     window.location.href = '/margin-call';
                 } else {
                     // 登錄失敗，顯示錯誤消息
                     setNotificationMessage(response.data.msg); //未解決!!!
-                    handleErrorAlert();   //未解決!!!
-                    setError(response.data.msg);
+                    setShowHandleErrorAlert(true);
+                    // handleErrorAlert();   //未解決!!!
+                    // setError(response.data.msg);
                 }
             })
             .catch((error) => {
                 // 處理錯誤
-                setError("Sorry , system error !");
+                // setError("Sorry , system error !");
                 setNotificationMessage("Sorry , system error !"); //未解決!!!
-                handleErrorAlert();   //未解決!!!
+                setShowHandleErrorAlert(true);
+                // handleErrorAlert();   //未解決!!!
             });
     };
 
@@ -131,7 +143,7 @@ export const LoginForm = () => {
                     Submit
                 </button>
             </div>
-            {error && <p className="text-danger text-center">{error}</p>}
+            {/*{error && <p className="text-danger text-center">{error}</p>}*/}
         </form>
     );
 };

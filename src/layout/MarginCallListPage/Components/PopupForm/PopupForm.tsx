@@ -19,7 +19,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
 
 
     const [reply, setReply] = useState('存款');
-    const [followUpResult, setFollowUpResult] = useState('');
+    const [followUpResult, setFollowUpResult] = useState('存款');
     const [remark, setRemark] = useState('');
     const [depositCurrency, setDepositCurrency] = useState('');
     const [amount, setAmount] = useState('');
@@ -38,7 +38,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
             axios.post('http://localhost:8080/user/verify-token', { token })
                 .then((response) => {
                    if(response.data.status === "success") {
-                       console.log("456");
+                       console.log("token ok");
                        axios.post('http://localhost:8080/margin-call/update',{
                            marginCallId: marginCallId,
                            updatedBy: updatedBy,
@@ -54,6 +54,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                        })
                            .then((dataResponse) => {
                                setNotificationMessage("success");
+                               console.log("update ok");
                            })
                            .catch((error) => {
                                setNotificationMessage("fail");
@@ -78,11 +79,12 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
         }
 
         onClose();
-        // window.location.href = '/margin-call';
+        window.location.href = '/margin-call';
     };
 
     const handleReplyChange = (value: string) => {
         setReply(value);
+        setFollowUpResult(value);
         resetFields(); // Reset all fields when reply is changed
     };
 
@@ -110,9 +112,19 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                                     value={depositCurrency}
                                     onChange={(e) => setDepositCurrency(e.target.value)}
                                 >
-                                    <option value="HKD">HKD</option>
-                                    <option value="CNY">CNY</option>
-                                    <option value="USD">USD</option>
+                                    <option value="HKD">HKD(港元)</option>
+                                    <option value="CNY">CNY(人民幣)</option>
+                                    <option value="USD">USD(美元)</option>
+                                    <option value="MOP">MOP(澳門元)</option>
+                                    <option value="TWD">TWD(新台幣)</option>
+                                    <option value="JPY">JPY(日元)</option>
+                                    <option value="KRW">KRW(韓元)</option>
+                                    <option value="KRW">KRW(新加坡元)</option>
+                                    <option value="GBP">GBP(英鎊)</option>
+                                    <option value="EUR">EUR(歐元)</option>
+                                    <option value="AUD">AUD(澳元)</option>
+                                    <option value="NZD">NZD(紐西蘭元)</option>
+
                                 </select>
                             </div>
                             <div className="form-group">
@@ -216,8 +228,37 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                             {viewOnly ? (
                                 <div>
                                     <div className="text-primary m-1">{data.followUpResult?data.followUpResult:"N/A"}</div>
+                                    {data.followUpResult && data.followUpResult === "存款" && (
+                                        <div>
+                                            <label>存款貨幣</label>
+                                            <p className="m-1 text-primary">{data.depositCurrency ? data.depositCurrency : "N/A"}</p>
+                                            <label>金額</label>
+                                            <p className="m-1 text-primary">{data.amount ? data.amount.toString() : "N/A"}</p>
+                                        </div>
+                                    )}
+                                    {data.followUpResult && (data.followUpResult === "存貨" || data.followUpResult === "沽貨") && (
+                                        <div>
+                                            <label>股票號碼</label>
+                                            <p className="m-1 text-primary">{data.stockNo ? data.stockNo : "N/A"}</p>
+                                            <label>股數</label>
+                                            <p className="m-1 text-primary">{data.stockQty ? data.stockQty : "N/A"}</p>
+                                            <label>總金額</label>
+                                            <p className="m-1 text-primary">{data.amount ? data.amount.toString() : "N/A"}</p>
+                                        </div>
+                                    )}
+                                    {data.followUpResult && data.followUpResult === "合併其他帳戶" && (
+                                        <div>
+                                            <label>合併帳戶號碼</label>
+                                            <p className="m-1 text-primary">{data.mergeAcNo ? data.mergeAcNo : "N/A"}</p>
+                                        </div>
+                                    )}
+                                    {data.followUpResult && data.followUpResult === "擔保" && (
+                                        <div>
+                                            <label>擔保資產</label>
+                                            <p className="m-1 text-primary">{data.guaranteedAssets ? data.guaranteedAssets : "N/A"}</p>
+                                        </div>
+                                    )}
                                 </div>
-                                //need add 唔同case既話相應會睇到d咩
                             ) : (
                                 <select className="form-control" value={reply}
                                         onChange={(e) => handleReplyChange(e.target.value)}>
@@ -243,6 +284,15 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                             ) : (
                                 <textarea className="form-control" rows={3} value={remark}
                                           onChange={(e) => setRemark(e.target.value)}/>
+                            )}
+                            {viewOnly ? (
+                                <div>
+                                    <label>跟進人</label>
+                                    <p className="m-1 text-primary">{data.updatedBy ? data.updatedBy : "N/A"}</p>
+                                </div>
+                            ) : (
+                                <div>
+                                </div>
                             )}
                         </div>
                     </div>

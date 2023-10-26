@@ -10,6 +10,7 @@ export interface MarginCallData  {
     followUpResult:String,
     confirmDate:String,
     remark:String,
+    updatedBy:String,
 
     depositCurrency: String,
     amount: Number,
