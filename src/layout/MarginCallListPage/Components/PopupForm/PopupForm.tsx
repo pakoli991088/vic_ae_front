@@ -23,7 +23,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     const [reply, setReply] = useState('存款');
     const [followUpResult, setFollowUpResult] = useState('存款');
     const [remark, setRemark] = useState('');
-    const [depositCurrency, setDepositCurrency] = useState('');
+    const [depositCurrency, setDepositCurrency] = useState('HKD');
     const [amount, setAmount] = useState('');
     const [stockNo, setStockNo] = useState('');
     const [stockQty, setStockQty] = useState('');
