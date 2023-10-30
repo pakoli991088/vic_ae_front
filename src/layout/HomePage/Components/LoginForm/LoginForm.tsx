@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import showNotification from "../../../Utils/Notification";
 
 export const LoginForm = () => {
+    //haha
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     // 初始化 email 狀態
     const [email, setEmail] = useState("");
@@ -59,7 +60,7 @@ export const LoginForm = () => {
         e.preventDefault(); // 防止表單默認提交行為
         // 使用 Axios 發送 POST 請求到您的 API
         console.log(apiBaseUrl);
-        axios.post(`${apiBaseUrl}/user/login`, {
+        axios.post(`http://${apiBaseUrl}/user/login`, {
             email: email,
             password: password,
         })
