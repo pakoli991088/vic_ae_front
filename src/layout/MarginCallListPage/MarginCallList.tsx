@@ -8,6 +8,7 @@ import showNotification from "../Utils/Notification";
 import {MarginCallData} from "./MarginCallData";
 
 export const MarginCallList = () => {
+    const apiBaseUrl = process.env.API_BASE_URL;
     const [data , setData] = useState<MarginCallData[]>([]);
     const today = new Date().toISOString().substr(0, 10);
     const [notificationMessage,setNotificationMessage] = useState("default error");
@@ -48,12 +49,12 @@ export const MarginCallList = () => {
         // 验证 token
         const token = Cookies.get('tempTokens');
         if (token) {
-            axios.post('http://localhost:8080/user/verify-token', { token })
+            axios.post(`${apiBaseUrl}/user/verify-token`, { token })
                 .then((response) => {
                     if (response.data.status === "success") {
                         // console.log(response);  //show user information
                         // 验证成功，获取数据
-                        axios.get('http://localhost:8080/margin-call/get/' + token + '/' + selectedDate)
+                        axios.get(`${apiBaseUrl}/margin-call/get/${token}/${selectedDate}`)
                             .then((dataResponse) => {
                                 // console.log(dataResponse);  // show marginCall data info
                                 setData(dataResponse.data.data);

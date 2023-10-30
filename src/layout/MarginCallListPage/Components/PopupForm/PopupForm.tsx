@@ -1,8 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {SelectedData} from "../../../../types";
 import {MarginCallData} from "../../MarginCallData";
 import Cookies from "js-cookie";
 import axios from "axios";
+import showNotification from "../../../Utils/Notification";
 
 type PopupFormProps = {
     data: MarginCallData;
@@ -12,6 +13,7 @@ type PopupFormProps = {
 };
 export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
 
+    const apiBaseUrl = process.env.API_BASE_URL;
     const marginCallId = data.marginCallId;
     const updatedBy = Cookies.get("username");
     const today = new Date();
@@ -28,18 +30,27 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     const [mergeAcNo, setMergeAcNo] = useState('');
     const [guaranteedAssets, setGuaranteedAssets] = useState('');
     const [notificationMessage,setNotificationMessage] = useState("default error");
-    const [error, setError] = useState("");
+    const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
+    const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
+    // const [error, setError] = useState("");
+
+    const handleSuccessAlert = () => {
+        showNotification({type: 'success', message: notificationMessage})
+    };
+    const handleErrorAlert = () => {
+        showNotification({type: 'error', message: notificationMessage})
+    };
     const handleSave = () => {
         // Perform save action here with form data
         // ...
         // Close the modal
         const token = Cookies.get('tempTokens');
         if (token) {
-            axios.post('http://localhost:8080/user/verify-token', { token })
+            axios.post(`${apiBaseUrl}/user/verify-token`, { token })
                 .then((response) => {
                    if(response.data.status === "success") {
                        console.log("token ok");
-                       axios.post('http://localhost:8080/margin-call/update',{
+                       axios.post(`${apiBaseUrl}/margin-call/update`,{
                            marginCallId: marginCallId,
                            updatedBy: updatedBy,
                            confirmDate: date,
@@ -53,13 +64,14 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                            guaranteedAssets: guaranteedAssets
                        })
                            .then((dataResponse) => {
-                               setNotificationMessage("success");
-                               console.log("update ok");
+                               setNotificationMessage("updated success");
+                               setShowHandleSuccessAlert(true);
                            })
                            .catch((error) => {
-                               setNotificationMessage("fail");
-                               setError(response.data.msg);
-                               console.log(error);
+                               setNotificationMessage("updated fail . " + error.get().message);
+                               setShowHandleErrorAlert(true);
+                               // setError(response.data.msg);
+                               // console.log(error);
                            })
                    } else {
                        // 无效 token，重定向到登录页面或显示错误消息
@@ -68,15 +80,18 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                        // 或显示错误消息并从 Cookie 中删除 token
                        Cookies.remove('tempTokens');
                        // setLoading(false);
-                       setNotificationMessage("Authentication failed , please login again"); //未解決!!!
-                       // handleErrorAlert();   //未解決!!!
+                       setNotificationMessage("Authentication failed , please login again");
+                       setShowHandleErrorAlert(true);
                        window.location.href = '/'
                    }
                 });
         } else {
             setNotificationMessage("Please login");
+            setShowHandleErrorAlert(true);
             window.location.href = '/';
         }
+
+
 
         onClose();
         window.location.href = '/margin-call';
@@ -96,6 +111,17 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
         setMergeAcNo('');
         setGuaranteedAssets('');
     };
+
+    useEffect(() => {
+        if(showHandleErrorAlert) {
+            handleErrorAlert();
+            setShowHandleErrorAlert(false);
+        }
+        if(showHandleSuccessAlert) {
+            handleSuccessAlert()
+            setShowHandleSuccessAlert(false);
+        }
+    },[notificationMessage,showHandleSuccessAlert,showHandleErrorAlert])
 
     const renderAdditionalFields = () => {
         switch (reply) {
