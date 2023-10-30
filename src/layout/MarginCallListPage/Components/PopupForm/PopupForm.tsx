@@ -13,7 +13,7 @@ type PopupFormProps = {
 };
 export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
 
-    const apiBaseUrl = process.env.API_BASE_URL;
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const marginCallId = data.marginCallId;
     const updatedBy = Cookies.get("username");
     const today = new Date();

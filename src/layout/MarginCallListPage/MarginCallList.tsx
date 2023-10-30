@@ -8,7 +8,7 @@ import showNotification from "../Utils/Notification";
 import {MarginCallData} from "./MarginCallData";
 
 export const MarginCallList = () => {
-    const apiBaseUrl = process.env.API_BASE_URL;
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const [data , setData] = useState<MarginCallData[]>([]);
     const today = new Date().toISOString().substr(0, 10);
     const [notificationMessage,setNotificationMessage] = useState("default error");
