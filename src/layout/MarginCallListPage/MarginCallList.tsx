@@ -13,12 +13,16 @@ export const MarginCallList = () => {
     const today = new Date().toISOString().substr(0, 10);
     const [notificationMessage,setNotificationMessage] = useState("default error");
     const [selectedData, setSelectedData] = useState<MarginCallData | null>(null);
-    const [selectedDate, setSelectedDate] = useState(today);
+    const [selectedFromDate, setSelectedFromDate] = useState(today);
+    const [selectedToDate, setSelectedToDate] = useState(today);
     const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
     const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
 
-    const handleDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedDate(e.target.value);
+    const handleFormDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedFromDate(e.target.value);
+    };
+    const handleToDateChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedToDate(e.target.value);
     };
     // const [followUpResult , setFollowUpResult] = useState('');
     // const [remark , setRemark] = useState('');
@@ -54,9 +58,9 @@ export const MarginCallList = () => {
                     if (response.data.status === "success") {
                         // console.log(response);  //show user information
                         // 验证成功，获取数据
-                        axios.get(`${apiBaseUrl}/margin-call/get/${token}/${selectedDate}`)
+                        axios.get(`${apiBaseUrl}/margin-call/get-margin-call/${token}/${selectedFromDate}/${selectedToDate}`)
                             .then((dataResponse) => {
-                                // console.log(dataResponse);  // show marginCall data info
+                                console.log(dataResponse);  // show marginCall data info
                                 setData(dataResponse.data.data);
                             })
                             .catch((error) => {
@@ -96,7 +100,7 @@ export const MarginCallList = () => {
             // handleErrorAlert();   //未解決!!!
             window.location.href = '/'
         }
-    }, [selectedDate]);
+    }, [selectedToDate,selectedFromDate]);
 
     useEffect(() => {
         if(showHandleErrorAlert) {
@@ -113,7 +117,9 @@ export const MarginCallList = () => {
     return (
         <div className="container">
             <div className="mt-2 mb-2">
-                <input type="date" value={selectedDate} onChange={handleDateChange} />
+                <input type="date" value={selectedFromDate} onChange={handleFormDateChange} />
+                <span>&nbsp;To&nbsp;</span>
+                <input type="date" value={selectedToDate} onChange={handleToDateChange} />
             </div>
 
             <table className="table table-striped table-bordered table-hover">
@@ -140,9 +146,9 @@ export const MarginCallList = () => {
                         <td>{item.balanceAmount.toString()}</td>
                         <td>{item.stockValue.toString()}</td>
                         <td>{item.guaranteedAmount.toString()}</td>
-                        <td>{item.followUpResult?item.followUpResult:"請跟進"}</td>
-                        <td>{item.remark ? item.remark:" N/A"}</td>
-                        <td>{item.confirmDate? item.confirmDate : "尚未確認"}</td>
+                        <td className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult?item.followUpResult:"Please follow"}</td>
+                        <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark:""}</td>
+                        <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.confirmDate? item.confirmDate : ""}</td>
                         <td>
                         <div className="d-flex" role="group" aria-label="Basic mixed styles example">
                             <button type="button" className="btn btn-primary m-1"

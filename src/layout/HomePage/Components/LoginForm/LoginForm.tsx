@@ -42,19 +42,15 @@ export const LoginForm = () => {
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
-
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
     };
-
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
             // 勾選了 "Check me out"，將 email 存儲到本地存儲
             localStorage.setItem("userEmail", email);
         }
     };
-
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault(); // 防止表單默認提交行為
         // 使用 Axios 發送 POST 請求到您的 API
@@ -64,35 +60,31 @@ export const LoginForm = () => {
             password: password,
         })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 // 登錄成功，處理響應
                 if (response.data.status === "success") {
                     Cookies.set('tempTokens', response.data.data.tempTokens, { expires: 1 });
-                    Cookies.set('username', response.data.data.username, { expires: 1 });
-                    // 將 email 存儲到本地存儲，如果 "Check me out" 被勾選
+                    Cookies.set('username', response.data.data.name, { expires: 1 });
+                    // 將 email 存儲到本地存儲，如果 "Remember me" 被勾選
                     const checkbox = document.getElementById("exampleCheck1") as HTMLInputElement;
                     if (checkbox.checked) {
                         localStorage.setItem("userEmail", email);
                     }
-                    // 跳轉到 '/margin-call' 路由
-                    setNotificationMessage("login success"); //未解決!!!
+                    setNotificationMessage("login success");
                     setShowHandleSuccessAlert(true);
-                    // handleSuccessAlert();   //未解決!!!
+                    // 跳轉到 '/margin-call' 路由
                     window.location.href = '/margin-call';
                 } else {
-                    // 登錄失敗，顯示錯誤消息
-                    setNotificationMessage(response.data.msg); //未解決!!!
+                    // when login fail set the latest error message
+                    setNotificationMessage(response.data.msg);
                     setShowHandleErrorAlert(true);
-                    // handleErrorAlert();   //未解決!!!
-                    // setError(response.data.msg);
                 }
             })
             .catch((error) => {
                 // 處理錯誤
                 // setError("Sorry , system error !");
-                setNotificationMessage("Sorry , system error !"); //未解決!!!
+                setNotificationMessage("Sorry , system error !");
                 setShowHandleErrorAlert(true);
-                // handleErrorAlert();   //未解決!!!
             });
     };
 
@@ -136,7 +128,7 @@ export const LoginForm = () => {
                         onChange={handleCheckboxChange} // 在 checkbox 狀態變化時處理
                     />
                     <label className="form-check-label mx-2" htmlFor="exampleCheck1">
-                        Check me out
+                        Remember Me
                     </label>
                 </div>
             </div>
@@ -145,7 +137,6 @@ export const LoginForm = () => {
                     Submit
                 </button>
             </div>
-            {/*{error && <p className="text-danger text-center">{error}</p>}*/}
         </form>
     );
 };

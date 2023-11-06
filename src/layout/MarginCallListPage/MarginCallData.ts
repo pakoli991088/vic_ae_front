@@ -11,6 +11,7 @@ export interface MarginCallData  {
     confirmDate:String,
     remark:String,
     updatedBy:String,
+    aeConfirm:String,
 
     depositCurrency: String,
     amount: Number,
