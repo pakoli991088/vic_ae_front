@@ -139,7 +139,7 @@ export const MarginCallList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.length > 0 ? data.map((item:MarginCallData, index) => (
+                {data && data.length > 0 ? data.map((item:MarginCallData, index) => (
                     <tr key={index}>
                         <td>{item.notificationDate}</td>
                         <td>{item.acNo}</td>
