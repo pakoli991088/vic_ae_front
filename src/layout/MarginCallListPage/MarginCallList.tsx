@@ -139,7 +139,7 @@ export const MarginCallList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map((item:MarginCallData, index) => (
+                {data.length > 0 ? data.map((item:MarginCallData, index) => (
                     <tr key={index}>
                         <td>{item.notificationDate}</td>
                         <td>{item.acNo}</td>
@@ -167,13 +167,12 @@ export const MarginCallList = () => {
                         </div>
                         </td>
                     </tr>
-                ))}
+                )):null}
 
                 {/* Popup */}
                 {isPopupOpen && selectedData !== null && (
                     <PopupForm data={selectedData} onClose={closePopup} viewOnly={viewOnly} />
                 )}
-
                 </tbody>
             </table>
         </div>
