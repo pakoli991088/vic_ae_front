@@ -231,17 +231,17 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                     </div>
                     <div className="modal-body">
                         <label className="fw-bold">通知日期:</label>
-                        <p>{data.notificationDate}</p>
+                        <p className="fw-bold">{data.notificationDate}</p>
                         <label className="fw-bold">帳戶號碼:</label>
-                        <p>{data.acNo}</p>
+                        <p className="fw-bold">{data.acNo}</p>
                         <label className="fw-bold">帳戶名稱:</label>
-                        <p>{data.acName}</p>
+                        <p className="fw-bold">{data.acName}</p>
                         <label className="fw-bold">結欠金額:</label>
-                        <p>{data.balanceAmount.toString()}</p>
+                        <p className="fw-bold">{data.balanceAmount.toString()}</p>
                         <label className="fw-bold">股票市值:</label>
-                        <p>{data.stockValue.toString()}</p>
+                        <p className="fw-bold">{data.stockValue.toString()}</p>
                         <label className="fw-bold">追收保證金額:</label>
-                        <p>{data.guaranteedAmount.toString()}</p>
+                        <p className="fw-bold">{data.guaranteedAmount.toString()}</p>
                         <div className="form-group">
                             <h5 className="modal-title">AE/Dealing Reply 回覆</h5>
                             {/*{viewOnly ? (*/}
@@ -253,35 +253,35 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                             <label className="fw-bold">跟進結果</label>
                             {viewOnly ? (
                                 <div>
-                                    <div className="text-primary m-1">{data.followUpResult?data.followUpResult:""}</div>
+                                    <div className="text-primary m-1 fw-bold ">{data.followUpResult?data.followUpResult:""}</div>
                                     {data.followUpResult && data.followUpResult === "存款" && (
                                         <div>
                                             <label className="fw-bold">存款貨幣</label>
-                                            <p className="m-1 text-primary">{data.depositCurrency ? data.depositCurrency : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.depositCurrency ? data.depositCurrency : ""}</p>
                                             <label className="fw-bold">金額</label>
-                                            <p className="m-1 text-primary">{data.amount ? data.amount.toString() : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
                                         </div>
                                     )}
                                     {data.followUpResult && (data.followUpResult === "存貨" || data.followUpResult === "沽貨") && (
                                         <div>
                                             <label className="fw-bold">股票號碼</label>
-                                            <p className="m-1 text-primary">{data.stockNo ? data.stockNo : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.stockNo ? data.stockNo : ""}</p>
                                             <label className="fw-bold">股數</label>
-                                            <p className="m-1 text-primary">{data.stockQty ? data.stockQty : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.stockQty ? data.stockQty : ""}</p>
                                             <label className="fw-bold">總金額</label>
-                                            <p className="m-1 text-primary">{data.amount ? data.amount.toString() : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
                                         </div>
                                     )}
                                     {data.followUpResult && data.followUpResult === "合併其他帳戶" && (
                                         <div>
                                             <label className="fw-bold">合併帳戶號碼</label>
-                                            <p className="m-1 text-primary">{data.mergeAcNo ? data.mergeAcNo : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.mergeAcNo ? data.mergeAcNo : ""}</p>
                                         </div>
                                     )}
                                     {data.followUpResult && data.followUpResult === "擔保" && (
                                         <div>
                                             <label className="fw-bold">擔保資產</label>
-                                            <p className="m-1 text-primary">{data.guaranteedAssets ? data.guaranteedAssets : ""}</p>
+                                            <p className="m-1 text-primary fw-bold">{data.guaranteedAssets ? data.guaranteedAssets : ""}</p>
                                         </div>
                                     )}
                                 </div>
@@ -306,7 +306,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                         <div className="form-group">
                             <label className="fw-bold">備註</label>
                             {viewOnly ? (
-                                <p className="m-1 text-primary">{data.remark ? data.remark :""}</p>
+                                <p className="m-1 text-primary fw-bold">{data.remark ? data.remark :""}</p>
                             ) : (
                                 <textarea className="form-control" rows={3} value={remark}
                                           onChange={(e) => setRemark(e.target.value)}/>
@@ -314,7 +314,7 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                             {viewOnly ? (
                                 <div>
                                     <label className="fw-bold">跟進人</label>
-                                    <p className="m-1 text-primary">{data.aeConfirm ? data.aeConfirm : ""}</p>
+                                    <p className="m-1 text-primary fw-bold">{data.aeConfirm ? data.aeConfirm : ""}</p>
                                 </div>
                             ) : (
                                 <div>

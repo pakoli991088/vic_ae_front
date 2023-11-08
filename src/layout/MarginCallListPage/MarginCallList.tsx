@@ -120,6 +120,7 @@ export const MarginCallList = () => {
                 <input type="date" value={selectedFromDate} onChange={handleFormDateChange} />
                 <span>&nbsp;To&nbsp;</span>
                 <input type="date" value={selectedToDate} onChange={handleToDateChange} />
+                <span>&nbsp;(dd/mm/yyyy)</span>
             </div>
 
             <table className="table table-striped table-bordered table-hover">
@@ -142,13 +143,13 @@ export const MarginCallList = () => {
                     <tr key={index}>
                         <td>{item.notificationDate}</td>
                         <td>{item.acNo}</td>
-                        <td>{item.acName}</td>
+                        <td className="ac_name_width">{item.acName}</td>
                         <td>{item.balanceAmount.toString()}</td>
                         <td>{item.stockValue.toString()}</td>
                         <td>{item.guaranteedAmount.toString()}</td>
                         <td className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult?item.followUpResult:"Please follow"}</td>
                         <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark:""}</td>
-                        <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.confirmDate? item.confirmDate : ""}</td>
+                        <td className={item.remark ? 'text-success  fw-bold confirm_date_td_width' : 'text-dark'}>{item.confirmDate? item.confirmDate : ""}</td>
                         <td>
                         <div className="d-flex" role="group" aria-label="Basic mixed styles example">
                             <button type="button" className="btn btn-primary m-1"
