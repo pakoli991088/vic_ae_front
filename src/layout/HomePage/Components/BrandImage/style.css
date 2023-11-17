@@ -1,10 +1,11 @@
 .img {
     margin: 0 auto;
-    width: 50%;
+    width: 100%;
     min-width : 290px;
 }
 
 .company_name_text {
     text-align: center;
     color: rgb(20, 52, 104);
+    font-size: 45px;
 }
