@@ -3,7 +3,8 @@ img {
 }
 
 .background-color-blue {
-    background-color: rgb(20, 52, 104);
+    /*background-color: rgb(20, 52, 104);*/
+    background-color: white;
 }
 
 .text-color-white {
@@ -11,6 +12,18 @@ img {
 }
 
 .button_hover:hover {
-    background-color: rgb(20, 52, 104);
+    /*background-color: rgb(20, 52, 104);*/
+    background-color: white;
 }
 
+.custom_navbar {
+    width: 30%;
+}
+
+.select-box {
+    border: 1px solid #DFE1E2;
+}
+
+.navbar_span {
+    font-size: 20px;
+}

@@ -1,4 +1,4 @@
-import companyLogo from "./image/20231016-093842.png";
+import companyLogo from "./image/ae_logo.png";
 import React, {useState} from "react";
 import "./style.css";
 import Cookies from "js-cookie";
@@ -9,7 +9,7 @@ export const Navbar = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const today = new Date();
     const options = {timeZone: 'Asia/Hong_Kong'};
-    const hkDateTime = today.toLocaleString('en-US', {...options, year: 'numeric', month: '2-digit', day: '2-digit'});
+    const hkDateTime = today.toLocaleString('en-HK', {...options, day: '2-digit', month: '2-digit', year: 'numeric',});
 
 
     const handleLogout = () => {
@@ -30,16 +30,16 @@ export const Navbar = () => {
         <nav className="navbar navbar-expand-lg navbar-light  background-color-blue">
             <div className="container d-flex">
                 <a className="navbar-brand" href="#">
-                    <img src={companyLogo} className="d-inline-block align-top" alt="Company Logo"/>
+                    <img src={companyLogo} className="d-inline-block align-top custom_navbar" alt="Company Logo"/>
                 </a>
 
 
-                <span className="text-white ms-auto">{hkDateTime}&nbsp;&nbsp;&nbsp;</span>
+                <span className="text-dark ms-auto  navbar_span">{hkDateTime}&nbsp;&nbsp;&nbsp;</span>
 
 
                 {username && tempTokens && (
                     <div className="dropdown">
-                        <button className="btn btn-secondary dropdown-toggle background-color-blue button_hover"
+                        <button className="btn btn-secondary dropdown-toggle background-color-blue button_hover text-dark"
                                 type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                             {username}

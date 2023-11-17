@@ -19,9 +19,9 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     const today = new Date();
     const date = today.toISOString().substr(0, 10);
 
-
     const [reply, setReply] = useState('存款');
     const [followUpResult, setFollowUpResult] = useState('存款');
+
     const [remark, setRemark] = useState('');
     const [depositCurrency, setDepositCurrency] = useState('HKD');
     const [amount, setAmount] = useState('');
@@ -33,6 +33,8 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
     const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
     // const [error, setError] = useState("");
+    console.log(reply,followUpResult,depositCurrency,amount);
+
 
     const handleSuccessAlert = () => {
         showNotification({type: 'success', message: notificationMessage})

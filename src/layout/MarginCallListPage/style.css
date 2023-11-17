@@ -18,3 +18,65 @@ p {
 .ac_name_width {
     width: 10%;
 }
+
+.custom_height {
+    height: 105%;
+}
+
+.select-box {
+    flex-wrap: wrap; /* 允許彈性布局在需要時換行 */
+}
+
+.select-box > div {
+    margin-bottom: 10px; /* 加入間距以分開不同的 div 元素 */
+    flex: 1 1 auto; /* 使每個 div 元素能夠動態佔據空間 */
+    width: 100%; /* 確保 div 元素在行內佔據全部寬度 */
+}
+
+.select-box input,
+.select-box span,
+.select-box label,
+.select-box select,
+.select-box option,
+.select-box button {
+    width: 100%; /* 確保元素佔據全部可用寬度 */
+    margin-bottom: 5px; /* 加入間距 */
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* 內部容器 */
+.select-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* 元素設置 */
+.select-box > div {
+    margin-bottom: 10px;
+}
+
+/* 可以根據需要進行調整 */
+@media (min-width: 980px) {
+    .select-box > div {
+        width: auto; /* 在較大屏幕上恢復元素的自然寬度 */
+        margin-bottom: 0; /* 清除間距 */
+    }
+
+    .select-box input,
+    .select-box span,
+    .select-box label,
+    .select-box select,
+    .select-box option,
+    .select-box button {
+        width: auto; /* 在較大屏幕上恢復元素的自然寬度 */
+        margin-bottom: 0; /* 清除間距 */
+    }
+}

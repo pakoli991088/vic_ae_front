@@ -8,7 +8,6 @@ import {Navbar} from "./layout/NavBar/Navbar";
 export const App = () => {
     return (
         <div className="d-flex flex-column min-vh-100">
-            <Navbar/>
             <div className='flex-grow-1'>
                 <Switch>
                     <Route path="/" exact>
