@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {SelectedData} from "../../../../types";
-import {MarginCallData} from "../../MarginCallData";
+import React, { useEffect, useState } from "react";
+import { SelectedData } from "../../../../types";
+import { MarginCallData } from "../../MarginCallData";
 import Cookies from "js-cookie";
 import axios from "axios";
 import showNotification from "../../../Utils/Notification";
@@ -11,7 +11,7 @@ type PopupFormProps = {
     viewOnly: boolean;
 
 };
-export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
+export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const marginCallId = data.marginCallId;
@@ -29,72 +29,59 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     const [stockQty, setStockQty] = useState('');
     const [mergeAcNo, setMergeAcNo] = useState('');
     const [guaranteedAssets, setGuaranteedAssets] = useState('');
-    const [notificationMessage,setNotificationMessage] = useState("default error");
-    const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
-    const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
+    const [notificationMessage, setNotificationMessage] = useState("default error");
+    const [showHandleSuccessAlert, setShowHandleSuccessAlert] = useState(false);
+    const [showHandleErrorAlert, setShowHandleErrorAlert] = useState(false);
     // const [error, setError] = useState("");
-    console.log(reply,followUpResult,depositCurrency,amount);
 
+    useEffect(() => {
+    }, [followUpResult, depositCurrency, amount, remark, stockNo, stockQty, mergeAcNo, guaranteedAssets]);
 
     const handleSuccessAlert = () => {
-        showNotification({type: 'success', message: notificationMessage})
+        showNotification({ type: 'success', message: notificationMessage })
     };
     const handleErrorAlert = () => {
-        showNotification({type: 'error', message: notificationMessage})
+        showNotification({ type: 'error', message: notificationMessage })
     };
     const handleSave = () => {
-        // Perform save action here with form data
-        // ...
-        // Close the modal
         const token = Cookies.get('tempTokens');
         if (token) {
             axios.post(`${apiBaseUrl}/user/verify-token`, { token })
                 .then((response) => {
-                   if(response.data.status === "success") {
-                       console.log("token ok");
-                       axios.post(`${apiBaseUrl}/margin-call/update`,{
-                           marginCallId: marginCallId,
-                           updatedBy: updatedBy,
-                           confirmDate: date,
-                           followUpResult: followUpResult,
-                           depositCurrency: depositCurrency,
-                           amount: amount,
-                           remark: remark,
-                           stockNo: stockNo,
-                           stockQty: stockQty,
-                           mergeAcNo: mergeAcNo,
-                           guaranteedAssets: guaranteedAssets
-                       })
-                           .then((dataResponse) => {
-                               setNotificationMessage("updated success");
-                               setShowHandleSuccessAlert(true);
-                           })
-                           .catch((error) => {
-                               setNotificationMessage("updated fail . " + error.get().message);
-                               setShowHandleErrorAlert(true);
-                               // setError(response.data.msg);
-                               // console.log(error);
-                           })
-                   } else {
-                       // 无效 token，重定向到登录页面或显示错误消息
-                       // 你可以使用 react-router-dom 进行重定向
-                       // 例如: history.push('/login') 或 window.location.href = '/login'
-                       // 或显示错误消息并从 Cookie 中删除 token
-                       Cookies.remove('tempTokens');
-                       // setLoading(false);
-                       setNotificationMessage("Authentication failed , please login again");
-                       setShowHandleErrorAlert(true);
-                       window.location.href = '/'
-                   }
+                    if (response.data.status === "success") {
+                        axios.post(`${apiBaseUrl}/margin-call/update`, {
+                            marginCallId: marginCallId,
+                            updatedBy: updatedBy,
+                            confirmDate: date,
+                            followUpResult: followUpResult,
+                            depositCurrency: depositCurrency,
+                            amount: amount,
+                            remark: remark,
+                            stockNo: stockNo,
+                            stockQty: stockQty,
+                            mergeAcNo: mergeAcNo,
+                            guaranteedAssets: guaranteedAssets
+                        })
+                            .then((dataResponse) => {
+                                setNotificationMessage("updated success");
+                                setShowHandleSuccessAlert(true);
+                            })
+                            .catch((error) => {
+                                setNotificationMessage("updated fail . " + error.get().message);
+                                setShowHandleErrorAlert(true);
+                            })
+                    } else {
+                        Cookies.remove('tempTokens');
+                        setNotificationMessage("Authentication failed , please login again");
+                        setShowHandleErrorAlert(true);
+                        window.location.href = '/'
+                    }
                 });
         } else {
             setNotificationMessage("Please login");
             setShowHandleErrorAlert(true);
             window.location.href = '/';
         }
-
-
-
         onClose();
         window.location.href = '/margin-call';
     };
@@ -115,27 +102,28 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
     };
 
     useEffect(() => {
-        if(showHandleErrorAlert) {
+        if (showHandleErrorAlert) {
             handleErrorAlert();
             setShowHandleErrorAlert(false);
         }
-        if(showHandleSuccessAlert) {
+        if (showHandleSuccessAlert) {
             handleSuccessAlert()
             setShowHandleSuccessAlert(false);
         }
-    },[notificationMessage,showHandleSuccessAlert,showHandleErrorAlert])
+    }, [notificationMessage, showHandleSuccessAlert, showHandleErrorAlert])
 
     const renderAdditionalFields = () => {
         switch (reply) {
             case '存款':
-                if(!viewOnly) {
+                if (!viewOnly) {
                     return (
                         <div>
                             <div className="form-group">
-                                <label className="fw-bold">存款貨幣</label>
+                                <label className="fw-bold" htmlFor="depositCurrency">存款貨幣</label>
                                 {/*<textarea className="form-control" rows={1} value={depositCurrency}*/}
                                 {/*          onChange={(e) => setDepositCurrency(e.target.value)}/>*/}
                                 <select
+                                    id="depositCurrency"
                                     className="form-control"
                                     value={depositCurrency}
                                     onChange={(e) => setDepositCurrency(e.target.value)}
@@ -156,9 +144,9 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                                 </select>
                             </div>
                             <div className="form-group">
-                                <label className="fw-bold">金額</label>
+                                <label className="fw-bold" htmlFor="amount">金額</label>
                                 <textarea className="form-control" rows={1} value={amount}
-                                          onChange={(e) => setAmount(e.target.value)}/>
+                                    onChange={(e) => setAmount(e.target.value)} />
                             </div>
                         </div>
                     );
@@ -183,46 +171,44 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                 return (
                     <div>
                         <div className="form-group">
-                            <label className="mt-1 fw-bold">股票號碼</label>
+                            <label className="mt-1 fw-bold" htmlFor="stockNo">股票號碼</label>
                             <textarea className="form-control" rows={1} value={stockNo}
-                                      onChange={(e) => setStockNo(e.target.value)}/>
+                                onChange={(e) => setStockNo(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label className="mt-1 fw-bold">股數</label>
+                            <label className="mt-1 fw-bold" htmlFor="stockQty">股數</label>
                             <textarea className="form-control" rows={1} value={stockQty}
-                                      onChange={(e) => setStockQty(e.target.value)}/>
+                                onChange={(e) => setStockQty(e.target.value)} />
                         </div>
                         <div className="form-group">
-                            <label className="mt-1 fw-bold">總金額</label>
+                            <label className="mt-1 fw-bold" htmlFor="totalAmount">總金額</label>
                             <textarea className="form-control" rows={1} value={amount}
-                                      onChange={(e) => setAmount(e.target.value)}/>
+                                onChange={(e) => setAmount(e.target.value)} />
                         </div>
                     </div>
                 );
             case '合併其他帳戶':
                 return (
                     <div className="form-group">
-                        <label className="mt-1 fw-bold">合併帳戶號碼</label>
+                        <label className="mt-1 fw-bold" htmlFor="mergeAcNo">合併帳戶號碼</label>
                         <textarea className="form-control" rows={1} value={mergeAcNo}
-                                  onChange={(e) => setMergeAcNo(e.target.value)}/>
+                            onChange={(e) => setMergeAcNo(e.target.value)} />
                     </div>
                 );
             case '擔保':
                 return (
                     <div className="form-group ">
-                        <label className="mt-1 fw-bold">擔保資產</label>
+                        <label className="mt-1 fw-bold" htmlFor="guaranteeAssets">擔保資產</label>
                         <textarea className="form-control" rows={1} value={guaranteedAssets}
-                                  onChange={(e) => setGuaranteedAssets(e.target.value)}/>
+                            onChange={(e) => setGuaranteedAssets(e.target.value)} />
                     </div>
                 );
             default:
                 return null;
         }
-
     };
-
     return (
-        <div className="modal fade show" style={{display: 'block'}} tabIndex={-1} role="dialog">
+        <div className="modal fade show" style={{ display: 'block' }} tabIndex={-1} role="dialog">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -232,18 +218,18 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <label className="fw-bold">通知日期:</label>
-                        <p className="fw-bold">{data.notificationDate}</p>
-                        <label className="fw-bold">帳戶號碼:</label>
-                        <p className="fw-bold">{data.acNo}</p>
-                        <label className="fw-bold">帳戶名稱:</label>
-                        <p className="fw-bold">{data.acName}</p>
-                        <label className="fw-bold">結欠金額:</label>
-                        <p className="fw-bold">{data.balanceAmount.toString()}</p>
-                        <label className="fw-bold">股票市值:</label>
-                        <p className="fw-bold">{data.stockValue.toString()}</p>
-                        <label className="fw-bold">追收保證金額:</label>
-                        <p className="fw-bold">{data.guaranteedAmount.toString()}</p>
+                        <label className="fw-bold" htmlFor="notificationDate">通知日期:</label>
+                        <p id="notificationDate" className="fw-bold">{data.notificationDate}</p>
+                        <label className="fw-bold" htmlFor="acNo">帳戶號碼:</label>
+                        <p id="acNo" className="fw-bold">{data.acNo}</p>
+                        <label className="fw-bold" htmlFor="acName">帳戶名稱:</label>
+                        <p id="acName" className="fw-bold">{data.acName}</p>
+                        <label className="fw-bold" htmlFor="balanceAmount">結欠金額:</label>
+                        <p id="balanceAmount" className="fw-bold">{data.balanceAmount.toString()}</p>
+                        <label className="fw-bold" htmlFor="stockValue">股票市值:</label>
+                        <p id="stockValue" className="fw-bold" >{data.stockValue.toString()}</p>
+                        <label className="fw-bold" htmlFor="guaranteeAmount">追收保證金額:</label>
+                        <p id="guaranteeAmount" className="fw-bold">{data.guaranteedAmount.toString()}</p>
                         <div className="form-group">
                             <h5 className="modal-title">AE/Dealing Reply 回覆</h5>
                             {/*{viewOnly ? (*/}
@@ -252,44 +238,44 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                             {/*}*/}
                         </div>
                         <div className="form-group">
-                            <label className="fw-bold">跟進結果</label>
+                            <label className="fw-bold" htmlFor="formFollowUpResult">跟進結果</label>
                             {viewOnly ? (
                                 <div>
-                                    <div className="text-primary m-1 fw-bold ">{data.followUpResult?data.followUpResult:""}</div>
+                                    <div className="text-primary m-1 fw-bold ">{data.followUpResult ? data.followUpResult : ""}</div>
                                     {data.followUpResult && data.followUpResult === "存款" && (
                                         <div>
-                                            <label className="fw-bold">存款貨幣</label>
+                                            <label className="fw-bold" htmlFor="formDepositCurrency">存款貨幣</label>
                                             <p className="m-1 text-primary fw-bold">{data.depositCurrency ? data.depositCurrency : ""}</p>
-                                            <label className="fw-bold">金額</label>
+                                            <label className="fw-bold" htmlFor="formAmount">金額</label>
                                             <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
                                         </div>
                                     )}
                                     {data.followUpResult && (data.followUpResult === "存貨" || data.followUpResult === "沽貨") && (
                                         <div>
-                                            <label className="fw-bold">股票號碼</label>
+                                            <label className="fw-bold" htmlFor="formStockNo">股票號碼</label>
                                             <p className="m-1 text-primary fw-bold">{data.stockNo ? data.stockNo : ""}</p>
-                                            <label className="fw-bold">股數</label>
+                                            <label className="fw-bold" htmlFor="formStockQty">股數</label>
                                             <p className="m-1 text-primary fw-bold">{data.stockQty ? data.stockQty : ""}</p>
-                                            <label className="fw-bold">總金額</label>
+                                            <label className="fw-bold" htmlFor="formTotalAmount">總金額</label>
                                             <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
                                         </div>
                                     )}
                                     {data.followUpResult && data.followUpResult === "合併其他帳戶" && (
                                         <div>
-                                            <label className="fw-bold">合併帳戶號碼</label>
+                                            <label className="fw-bold" htmlFor="formMergeAcNo">合併帳戶號碼</label>
                                             <p className="m-1 text-primary fw-bold">{data.mergeAcNo ? data.mergeAcNo : ""}</p>
                                         </div>
                                     )}
                                     {data.followUpResult && data.followUpResult === "擔保" && (
                                         <div>
-                                            <label className="fw-bold">擔保資產</label>
+                                            <label className="fw-bold" htmlFor="formGuranteeAssets">擔保資產</label>
                                             <p className="m-1 text-primary fw-bold">{data.guaranteedAssets ? data.guaranteedAssets : ""}</p>
                                         </div>
                                     )}
                                 </div>
                             ) : (
-                                <select className="form-control" value={reply}
-                                        onChange={(e) => handleReplyChange(e.target.value)}>
+                                <select id="formFollowUpResult" className="form-control" value={reply}
+                                    onChange={(e) => handleReplyChange(e.target.value)}>
 
                                     <option value="存款">存款</option>
                                     <option value="存貨">存貨</option>
@@ -306,16 +292,16 @@ export const PopupForm = ({data, onClose, viewOnly}: PopupFormProps) => {
                         </div>
                         {renderAdditionalFields()}
                         <div className="form-group">
-                            <label className="fw-bold">備註</label>
+                            <label className="fw-bold" htmlFor="remark">備註</label>
                             {viewOnly ? (
-                                <p className="m-1 text-primary fw-bold">{data.remark ? data.remark :""}</p>
+                                <p className="m-1 text-primary fw-bold">{data.remark ? data.remark : ""}</p>
                             ) : (
                                 <textarea className="form-control" rows={3} value={remark}
-                                          onChange={(e) => setRemark(e.target.value)}/>
+                                    onChange={(e) => setRemark(e.target.value)} />
                             )}
                             {viewOnly ? (
                                 <div>
-                                    <label className="fw-bold">跟進人</label>
+                                    <label className="fw-bold" htmlFor="followUpPerson">跟進人</label>
                                     <p className="m-1 text-primary fw-bold">{data.aeConfirm ? data.aeConfirm : ""}</p>
                                 </div>
                             ) : (
