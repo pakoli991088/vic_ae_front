@@ -65,6 +65,8 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
                                 console.log("update successfully");
                                 setNotificationMessage("updated success");
                                 setShowHandleSuccessAlert(true);
+                                onClose();
+                                window.location.href = '/margin-call';
                             })
                             .catch((error) => {
                                 console.log("update failed");
@@ -83,8 +85,8 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
             setShowHandleErrorAlert(true);
             window.location.href = '/';
         }
-        onClose();
-        window.location.href = '/margin-call';
+        // onClose();
+        // window.location.href = '/margin-call';
     };
 
     const handleReplyChange = (value: string) => {
