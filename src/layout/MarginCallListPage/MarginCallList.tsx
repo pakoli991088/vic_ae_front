@@ -7,7 +7,8 @@ import axios from "axios";
 import showNotification from "../Utils/Notification";
 import { MarginCallData } from "./MarginCallData";
 import { Navbar } from "../NavBar/Navbar";
-import jsPDF from 'jspdf';
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 export const MarginCallList = () => {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -28,15 +29,25 @@ export const MarginCallList = () => {
     }
         , [])
 
-    const handlePdf = () => {
-        
-        // const doc = new jsPDF();
+    const generatePDF = () => {
+        const doc = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4',
+        });
+        // It can parse html:
+        // <table id="my-table"><!-- ... --></table>
+        // autoTable(doc, { html: '#my-table' })
 
-        // // 添加文本到PDF
-        // doc.text('Hello world!', 10, 10);
-
-        // // 保存或下載PDF
-        // doc.save('example.pdf');
+        // Or use javascript directly:
+        autoTable(doc, {
+            head: [['Notification Date', 'AC No', 'AC Name','Balance Amount','Stock Value','Margin Call Amount','Follow Up Result','Remark','Confirm Date']],
+            body: [
+                ['David', 'david@example.com', 'Sweden','David', 'david@example.com', 'Sweden','David', 'david@example.com', 'Sweden'],
+                ['Castille', 'castille@example.com', 'Spain','Castille', 'castille@example.com', 'Spain','Castille', 'castille@example.com', 'Spain'],
+            ],
+        })
+        doc.save('table.pdf')
     }
 
     const handleSuccessAlert = () => {
@@ -166,13 +177,13 @@ export const MarginCallList = () => {
                 </div>
                 {data && data.length > 0 && (
                     <div>
-                        <button type="button" className="btn btn-secondary d-none" onClick={handlePdf}>Download PDF</button>
+                        <button type="button" className="btn btn-secondary " onClick={generatePDF}>Download PDF</button>
                     </div>
                 )}
 
             </div>
 
-            <table className="table table-striped table-bordered table-hover">
+            <table id="#my-table" className="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>Notification Date</th>
