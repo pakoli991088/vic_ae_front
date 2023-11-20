@@ -84,7 +84,7 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
             window.location.href = '/';
         }
         onClose();
-        // window.location.href = '/margin-call';
+        window.location.href = '/margin-call';
     };
 
     const handleReplyChange = (value: string) => {
