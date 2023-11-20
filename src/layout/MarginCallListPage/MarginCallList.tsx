@@ -7,6 +7,7 @@ import axios from "axios";
 import showNotification from "../Utils/Notification";
 import { MarginCallData } from "./MarginCallData";
 import { Navbar } from "../NavBar/Navbar";
+import jsPDF from 'jspdf';
 
 export const MarginCallList = () => {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -26,6 +27,18 @@ export const MarginCallList = () => {
     useEffect(() => {
     }
         , [])
+
+    const handlePdf = () => {
+        
+        // const doc = new jsPDF();
+
+        // // 添加文本到PDF
+        // doc.text('Hello world!', 10, 10);
+
+        // // 保存或下載PDF
+        // doc.save('example.pdf');
+    }
+
     const handleSuccessAlert = () => {
         showNotification({ type: 'success', message: notificationMessage })
     };
@@ -154,11 +167,11 @@ export const MarginCallList = () => {
                     <div>
                         <button type="button" className="btn btn-primary" onClick={callGetDataAPi}>Inquire</button>
                     </div>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </div>
-                {data && data.length >0 && (
+                {data && data.length > 0 && (
                     <div>
-                        <button type="button" className="btn btn-secondary d-none" onClick={() => alert('coming soon')}>Download PDF</button>
+                        <button type="button" className="btn btn-secondary d-none" onClick={handlePdf}>Download PDF</button>
                     </div>
                 )}
 
