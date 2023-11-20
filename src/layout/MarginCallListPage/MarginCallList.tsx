@@ -59,7 +59,6 @@ export const MarginCallList = () => {
             axios.post(`${apiBaseUrl}/user/verify-token`, { token })
                 .then((response) => {
                     if (response.data.status === "success") {
-                        console.log(searchBarFollowUpResultType);
                         // console.log(response);  //show user information
                         // 验证成功，获取数据
                         let apiUrl;
@@ -76,30 +75,26 @@ export const MarginCallList = () => {
                                     console.log(searchBarFollowUpResultType);
                                     return;
                                 }
-                                console.log("1234");
-                                console.log(dataResponse);  // show marginCall data info
                                 setData(dataResponse.data.data);
                             })
                             .catch((error) => {
-                                setNotificationMessage(error.message); //未解決!!!
+                                setNotificationMessage(error.message);
                                 setShowHandleErrorAlert(true);
                             });
                     } else {
-                        /* abc */
-
                         // 无效 token，重定向到登录页面或显示错误消息
                         // 你可以使用 react-router-dom 进行重定向
                         // 例如: history.push('/login') 或 window.location.href = '/login'
                         // 或显示错误消息并从 Cookie 中删除 token
                         console.log("456");
                         Cookies.remove('tempTokens');
-                        setNotificationMessage(response.data.msg); //未解決!!!
+                        setNotificationMessage(response.data.msg);
                         setShowHandleErrorAlert(true);
                         window.location.href = '/'
                     }
                 })
                 .catch((error) => {
-                    setNotificationMessage("Authentication failed , Service Error"); //未解決!!!
+                    setNotificationMessage("Authentication failed , Service Error");
                     setShowHandleErrorAlert(true);
                     window.location.href = '/'
                 });
@@ -109,7 +104,7 @@ export const MarginCallList = () => {
             你可以使用 react-router-dom 进行重定向
             例如: history.push('/login') 或 window.location.href = '/login'*/
             }
-            setNotificationMessage("Please login"); //未解決!!!
+            setNotificationMessage("Please login");
             setShowHandleErrorAlert(true);
             window.location.href = '/'
         }

@@ -32,7 +32,6 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
     const [notificationMessage, setNotificationMessage] = useState("default error");
     const [showHandleSuccessAlert, setShowHandleSuccessAlert] = useState(false);
     const [showHandleErrorAlert, setShowHandleErrorAlert] = useState(false);
-    // const [error, setError] = useState("");
 
     useEffect(() => {
     }, [followUpResult, depositCurrency, amount, remark, stockNo, stockQty, mergeAcNo, guaranteedAssets]);
@@ -63,10 +62,12 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
                             guaranteedAssets: guaranteedAssets
                         })
                             .then((dataResponse) => {
+                                console.log("update successfully");
                                 setNotificationMessage("updated success");
                                 setShowHandleSuccessAlert(true);
                             })
                             .catch((error) => {
+                                console.log("update failed");
                                 setNotificationMessage("updated fail . " + error.get().message);
                                 setShowHandleErrorAlert(true);
                             })
@@ -83,7 +84,7 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
             window.location.href = '/';
         }
         onClose();
-        window.location.href = '/margin-call';
+        // window.location.href = '/margin-call';
     };
 
     const handleReplyChange = (value: string) => {
