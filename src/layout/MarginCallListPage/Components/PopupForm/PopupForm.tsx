@@ -225,11 +225,11 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
                         <label className="fw-bold" htmlFor="acName">帳戶名稱:</label>
                         <p id="acName" className="fw-bold">{data.acName}</p>
                         <label className="fw-bold" htmlFor="balanceAmount">結欠金額:</label>
-                        <p id="balanceAmount" className="fw-bold">{data.balanceAmount.toString()}</p>
+                        <p id="balanceAmount" className="fw-bold">{data.balanceAmount.toLocaleString()}</p>
                         <label className="fw-bold" htmlFor="stockValue">股票市值:</label>
-                        <p id="stockValue" className="fw-bold" >{data.stockValue.toString()}</p>
+                        <p id="stockValue" className="fw-bold" >{data.stockValue.toLocaleString()}</p>
                         <label className="fw-bold" htmlFor="guaranteeAmount">追收保證金額:</label>
-                        <p id="guaranteeAmount" className="fw-bold">{data.guaranteedAmount.toString()}</p>
+                        <p id="guaranteeAmount" className="fw-bold">{data.guaranteedAmount.toLocaleString()}</p>
                         <div className="form-group">
                             <h5 className="modal-title">AE/Dealing Reply 回覆</h5>
                             {/*{viewOnly ? (*/}
