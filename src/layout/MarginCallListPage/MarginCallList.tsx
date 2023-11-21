@@ -8,7 +8,12 @@ import showNotification from "../Utils/Notification";
 import { MarginCallData } from "./MarginCallData";
 import { Navbar } from "../NavBar/Navbar";
 import jsPDF from 'jspdf'
-import autoTable from 'jspdf-autotable'
+import autoTable, { CellInput, RowInput } from 'jspdf-autotable'
+import './Components/font/NotoSansTC-Medium-normal'
+
+
+import { url } from 'inspector';
+import path from 'path';
 
 export const MarginCallList = () => {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -35,17 +40,40 @@ export const MarginCallList = () => {
             unit: 'mm',
             format: 'a4',
         });
-        // It can parse html:
-        // <table id="my-table"><!-- ... --></table>
-        // autoTable(doc, { html: '#my-table' })
 
+        // const myFont = '';
+    
+
+        // //     // add the font to jsPDF
+        // doc.addFileToVFS("MyFont.ttf", myFont);
+        // doc.addFont("MyFont.ttf", "MyFont", "normal");
+        doc.setFont("NotoSansTC-Medium");
+
+
+        const header = ['Notification Date', 'AC No', 'AC Name', 'Balance Amount', 'Stock Value', 'Margin Call Amount', 'Follow Up Result', 'Remark', 'Confirm Date'];
+        const rowArr: RowInput[] = []
+        for (const item of data) {
+            let x: CellInput = [
+                item.notificationDate ? item.notificationDate.toString() : "",
+                item.acNo ? item.acNo.toString() : "",
+                item.acName ? item.acName.toString() : "",
+                item.balanceAmount ? item.balanceAmount.toString() : "",
+                item.stockValue ? item.stockValue.toString() : "",
+                item.guaranteedAmount ? item.guaranteedAmount.toString() : "",
+                item.followUpResult ? decodeURI(encodeURI(item.followUpResult.toString())) : "",
+                item.remark ? item.remark.toString() : "",
+                item.confirmDate ? item.confirmDate.toString() : ""
+            ];
+            rowArr.push(x);
+        }
+        console.log(rowArr)
         // Or use javascript directly:
         autoTable(doc, {
-            head: [['Notification Date', 'AC No', 'AC Name','Balance Amount','Stock Value','Margin Call Amount','Follow Up Result','Remark','Confirm Date']],
-            body: [
-                ['David', 'david@example.com', 'Sweden','David', 'david@example.com', 'Sweden','David', 'david@example.com', 'Sweden'],
-                ['Castille', 'castille@example.com', 'Spain','Castille', 'castille@example.com', 'Spain','Castille', 'castille@example.com', 'Spain'],
-            ],
+            head: [header],
+            body: rowArr,
+            styles: {
+                font: "NotoSansTC-Medium"
+            }
         })
         doc.save('table.pdf')
     }
@@ -87,6 +115,7 @@ export const MarginCallList = () => {
                                     return;
                                 }
                                 setData(dataResponse.data.data);
+                                console.log(dataResponse.data.data);
                             })
                             .catch((error) => {
                                 setNotificationMessage(error.message);
@@ -140,7 +169,7 @@ export const MarginCallList = () => {
         <div className="container">
             <Navbar />
             <div className='d-flex'>
-                <div className="mt-2 mb-2 select-box p-2 d-flex justify-content-between">
+                <div className="mt-2 mb-2 select-box p-2 d-flex justify-content-between w-100 flex-wrap">
                     <div className="d-flex">
                         <input type="date" value={selectedFromDate}
                             onChange={(e) => setSelectedFromDate(e.target.value)} />
@@ -169,17 +198,17 @@ export const MarginCallList = () => {
                             </optgroup>
                         </select>
                     </div>
-                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+     
                     <div>
                         <button type="button" className="btn btn-primary" onClick={callGetDataAPi}>Inquire</button>
                     </div>
-                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                </div>
-                {data && data.length > 0 && (
+                    {data && data.length > 0 && (
                     <div>
                         <button type="button" className="btn btn-secondary " onClick={generatePDF}>Download PDF</button>
                     </div>
                 )}
+                </div>
+                
 
             </div>
 
