@@ -9,7 +9,7 @@ import { MarginCallData } from "./MarginCallData";
 import { Navbar } from "../NavBar/Navbar";
 import jsPDF from 'jspdf'
 import autoTable, { CellInput, RowInput } from 'jspdf-autotable'
-import './Components/font/NotoSansTC-Medium-normal'
+import './Components/font/NotoSansTC-Medium-normal.js'
 
 
 import { url } from 'inspector';
@@ -42,7 +42,7 @@ export const MarginCallList = () => {
         });
 
         // const myFont = '';
-    
+
 
         // //     // add the font to jsPDF
         // doc.addFileToVFS("MyFont.ttf", myFont);
@@ -198,17 +198,17 @@ export const MarginCallList = () => {
                             </optgroup>
                         </select>
                     </div>
-     
+
                     <div>
                         <button type="button" className="btn btn-primary" onClick={callGetDataAPi}>Inquire</button>
                     </div>
                     {data && data.length > 0 && (
-                    <div>
-                        <button type="button" className="btn btn-secondary " onClick={generatePDF}>Download PDF</button>
-                    </div>
-                )}
+                        <div>
+                            <button type="button" className="btn btn-secondary " onClick={generatePDF}>Download PDF</button>
+                        </div>
+                    )}
                 </div>
-                
+
 
             </div>
 
@@ -239,8 +239,7 @@ export const MarginCallList = () => {
                             <td className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult ? item.followUpResult : "Please follow"}</td>
                             <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark : ""}</td>
                             <td className={item.remark ? 'text-success  fw-bold confirm_date_td_width' : 'text-dark'}>{item.confirmDate ? item.confirmDate : ""}</td>
-                            <td>
-                                <div className="d-flex" role="group" aria-label="Basic mixed styles example">
+                            <td className="tdActionContainer" role="group" aria-label="Basic mixed styles example">
                                     <button type="button" className="btn btn-primary m-1"
                                         onClick={() => openPopup(item, true)}
                                     >Check
@@ -254,7 +253,6 @@ export const MarginCallList = () => {
                                             Reply
                                         </button>
                                     )}
-                                </div>
                             </td>
                         </tr>
                     )) : null}

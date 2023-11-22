@@ -89,7 +89,7 @@ export const LoginForm = () => {
     };
 
     return (
-        <form className="container mt-5" onSubmit={handleSubmit}>
+        <form className="container mt-5 w-50" onSubmit={handleSubmit}>
             <div className="mb-3 text-center">
                 <label htmlFor="exampleInputEmail1" className="form-label " id="email">
                     Email address
