@@ -9,7 +9,7 @@ import { MarginCallData } from "./MarginCallData";
 import { Navbar } from "../NavBar/Navbar";
 import jsPDF from 'jspdf'
 import autoTable, { CellInput, RowInput } from 'jspdf-autotable'
-import './Components/font/NotoSansTC-Medium-normal.js'
+import './Components/font/NotoSansTC-Medium-normal'
 
 
 import { url } from 'inspector';
