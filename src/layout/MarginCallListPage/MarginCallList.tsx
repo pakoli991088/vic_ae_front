@@ -57,9 +57,9 @@ export const MarginCallList = () => {
                 item.notificationDate ? item.notificationDate.toString() : "",
                 item.acNo ? item.acNo.toString() : "",
                 item.acName ? item.acName.toString() : "",
-                item.balanceAmount ? item.balanceAmount.toString() : "",
-                item.stockValue ? item.stockValue.toString() : "",
-                item.guaranteedAmount ? item.guaranteedAmount.toString() : "",
+                item.balanceAmount ? item.balanceAmount.toLocaleString() : "",
+                item.stockValue ? item.stockValue.toLocaleString() : "",
+                item.guaranteedAmount ? item.guaranteedAmount.toLocaleString() : "",
                 item.followUpResult ? decodeURI(encodeURI(item.followUpResult.toString())) : "",
                 item.remark ? item.remark.toString() : "",
                 item.confirmDate ? item.confirmDate.toString() : ""
