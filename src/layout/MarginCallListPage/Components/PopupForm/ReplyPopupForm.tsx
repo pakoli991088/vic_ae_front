@@ -11,7 +11,7 @@ type PopupFormProps = {
     viewOnly: boolean;
 
 };
-export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
+export const ReplyPopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
 
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
     const marginCallId = data.marginCallId;
@@ -221,104 +221,96 @@ export const PopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <div className="up" style={{ border: '1px solid pink' }}>
-                            <label className="fw-bold" htmlFor="notificationDate">通知日期:</label>
-                            <p id="notificationDate" className="fw-bold">{data.notificationDate}</p>
-                            <label className="fw-bold" htmlFor="acNo">帳戶號碼:</label>
-                            <p id="acNo" className="fw-bold">{data.acNo}</p>
-                            <label className="fw-bold" htmlFor="acName">帳戶名稱:</label>
-                            <p id="acName" className="fw-bold">{data.acName}</p>
-                            <label className="fw-bold" htmlFor="balanceAmount">結欠金額:</label>
-                            <p id="balanceAmount" className="fw-bold">{data.balanceAmount.toLocaleString()}</p>
-                            <label className="fw-bold" htmlFor="stockValue">股票市值:</label>
-                            <p id="stockValue" className="fw-bold" >{data.stockValue.toLocaleString()}</p>
-                            <label className="fw-bold" htmlFor="guaranteeAmount">追收保證金額:</label>
-                            <p id="guaranteeAmount" className="fw-bold">{data.guaranteedAmount.toLocaleString()}</p>
+                        <label className="fw-bold" htmlFor="notificationDate">通知日期:</label>
+                        <p id="notificationDate" className="fw-bold">{data.notificationDate}</p>
+                        <label className="fw-bold" htmlFor="acNo">帳戶號碼:</label>
+                        <p id="acNo" className="fw-bold">{data.acNo}</p>
+                        <label className="fw-bold" htmlFor="acName">帳戶名稱:</label>
+                        <p id="acName" className="fw-bold">{data.acName}</p>
+                        <label className="fw-bold" htmlFor="balanceAmount">結欠金額:</label>
+                        <p id="balanceAmount" className="fw-bold">{data.balanceAmount.toLocaleString()}</p>
+                        <label className="fw-bold" htmlFor="stockValue">股票市值:</label>
+                        <p id="stockValue" className="fw-bold" >{data.stockValue.toLocaleString()}</p>
+                        <label className="fw-bold" htmlFor="guaranteeAmount">追收保證金額:</label>
+                        <p id="guaranteeAmount" className="fw-bold">{data.guaranteedAmount.toLocaleString()}</p>
+                        <div className="form-group">
+                            <h5 className="modal-title">AE/Dealing Reply 回覆</h5>
+                            {/*{viewOnly ? (*/}
+                            {/*    <div></div>*/}
+                            {/*) : null*/}
+                            {/*}*/}
                         </div>
-                        <div className="down d-flex justify-content-between">
-                            <div className="downLeft" style={{ border: '1px solid pink' }}>
-                                <div className="form-group">
-                                    <h5 className="modal-title">AE/Dealing Reply 回覆</h5>
-                                </div>
-                                <div className="form-group">
-                                    <label className="fw-bold" htmlFor="formFollowUpResult">跟進結果</label>
-                                    {viewOnly ? (
+                        <div className="form-group">
+                            <label className="fw-bold" htmlFor="formFollowUpResult">跟進結果</label>
+                            {viewOnly ? (
+                                <div>
+                                    <div className="text-primary m-1 fw-bold ">{data.followUpResult ? data.followUpResult : ""}</div>
+                                    {data.followUpResult && data.followUpResult === "存款" && (
                                         <div>
-                                            <div className="text-primary m-1 fw-bold ">{data.followUpResult ? data.followUpResult : ""}</div>
-                                            {data.followUpResult && data.followUpResult === "存款" && (
-                                                <div>
-                                                    <label className="fw-bold" htmlFor="formDepositCurrency">存款貨幣</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.depositCurrency ? data.depositCurrency : ""}</p>
-                                                    <label className="fw-bold" htmlFor="formAmount">金額</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
-                                                </div>
-                                            )}
-                                            {data.followUpResult && (data.followUpResult === "存貨" || data.followUpResult === "沽貨") && (
-                                                <div>
-                                                    <label className="fw-bold" htmlFor="formStockNo">股票號碼</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.stockNo ? data.stockNo : ""}</p>
-                                                    <label className="fw-bold" htmlFor="formStockQty">股數</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.stockQty ? data.stockQty : ""}</p>
-                                                    <label className="fw-bold" htmlFor="formTotalAmount">總金額</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
-                                                </div>
-                                            )}
-                                            {data.followUpResult && data.followUpResult === "合併其他帳戶" && (
-                                                <div>
-                                                    <label className="fw-bold" htmlFor="formMergeAcNo">合併帳戶號碼</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.mergeAcNo ? data.mergeAcNo : ""}</p>
-                                                </div>
-                                            )}
-                                            {data.followUpResult && data.followUpResult === "擔保" && (
-                                                <div>
-                                                    <label className="fw-bold" htmlFor="formGuranteeAssets">擔保資產</label>
-                                                    <p className="m-1 text-primary fw-bold">{data.guaranteedAssets ? data.guaranteedAssets : ""}</p>
-                                                </div>
-                                            )}
+                                            <label className="fw-bold" htmlFor="formDepositCurrency">存款貨幣</label>
+                                            <p className="m-1 text-primary fw-bold">{data.depositCurrency ? data.depositCurrency : ""}</p>
+                                            <label className="fw-bold" htmlFor="formAmount">金額</label>
+                                            <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
                                         </div>
-                                    ) : (
-                                        <select id="formFollowUpResult" className="form-control" value={reply}
-                                            onChange={(e) => handleReplyChange(e.target.value)}>
+                                    )}
+                                    {data.followUpResult && (data.followUpResult === "存貨" || data.followUpResult === "沽貨") && (
+                                        <div>
+                                            <label className="fw-bold" htmlFor="formStockNo">股票號碼</label>
+                                            <p className="m-1 text-primary fw-bold">{data.stockNo ? data.stockNo : ""}</p>
+                                            <label className="fw-bold" htmlFor="formStockQty">股數</label>
+                                            <p className="m-1 text-primary fw-bold">{data.stockQty ? data.stockQty : ""}</p>
+                                            <label className="fw-bold" htmlFor="formTotalAmount">總金額</label>
+                                            <p className="m-1 text-primary fw-bold">{data.amount ? data.amount.toString() : ""}</p>
+                                        </div>
+                                    )}
+                                    {data.followUpResult && data.followUpResult === "合併其他帳戶" && (
+                                        <div>
+                                            <label className="fw-bold" htmlFor="formMergeAcNo">合併帳戶號碼</label>
+                                            <p className="m-1 text-primary fw-bold">{data.mergeAcNo ? data.mergeAcNo : ""}</p>
+                                        </div>
+                                    )}
+                                    {data.followUpResult && data.followUpResult === "擔保" && (
+                                        <div>
+                                            <label className="fw-bold" htmlFor="formGuranteeAssets">擔保資產</label>
+                                            <p className="m-1 text-primary fw-bold">{data.guaranteedAssets ? data.guaranteedAssets : ""}</p>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <select id="formFollowUpResult" className="form-control" value={reply}
+                                    onChange={(e) => handleReplyChange(e.target.value)}>
 
-                                            <option value="存款">存款</option>
-                                            <option value="存貨">存貨</option>
-                                            <option value="沽貨">沽貨</option>
-                                            {/*<option value="跟進中">跟進中</option>*/}
-                                            {/*<option value="觀察股價">觀察股價</option>*/}
-                                            {/*<option value="股價上升">股價上升</option>*/}
-                                            <option value="合併其他帳戶">合併其他帳戶</option>
-                                            <option value="擔保">擔保</option>
-                                            <option value="其他">其他</option>
-                                            {/* ... 其他選項 ... */}
-                                        </select>
-                                    )}
+                                    <option value="存款">存款</option>
+                                    <option value="存貨">存貨</option>
+                                    <option value="沽貨">沽貨</option>
+                                    {/*<option value="跟進中">跟進中</option>*/}
+                                    {/*<option value="觀察股價">觀察股價</option>*/}
+                                    {/*<option value="股價上升">股價上升</option>*/}
+                                    <option value="合併其他帳戶">合併其他帳戶</option>
+                                    <option value="擔保">擔保</option>
+                                    <option value="其他">其他</option>
+                                    {/* ... 其他選項 ... */}
+                                </select>
+                            )}
+                        </div>
+                        {renderAdditionalFields()}
+                        <div className="form-group">
+                            <label className="fw-bold" htmlFor="remark">備註</label>
+                            {viewOnly ? (
+                                <p className="m-1 text-primary fw-bold">{data.remark ? data.remark : ""}</p>
+                            ) : (
+                                <textarea className="form-control" rows={3} value={remark}
+                                    onChange={(e) => setRemark(e.target.value)} />
+                            )}
+                            {viewOnly ? (
+                                <div>
+                                    <label className="fw-bold" htmlFor="followUpPerson">跟進人</label>
+                                    <p className="m-1 text-primary fw-bold">{data.aeConfirm ? data.aeConfirm : ""}</p>
                                 </div>
-                                {renderAdditionalFields()}
-                                <div className="form-group">
-                                    <label className="fw-bold" htmlFor="remark">備註</label>
-                                    {viewOnly ? (
-                                        <p className="m-1 text-primary fw-bold">{data.remark ? data.remark : ""}</p>
-                                    ) : (
-                                        <textarea className="form-control" rows={3} value={remark}
-                                            onChange={(e) => setRemark(e.target.value)} />
-                                    )}
-                                    {viewOnly ? (
-                                        <div>
-                                            <label className="fw-bold" htmlFor="followUpPerson">跟進人</label>
-                                            <p className="m-1 text-primary fw-bold">{data.aeConfirm ? data.aeConfirm : ""}</p>
-                                        </div>
-                                    ) : (
-                                        <div>
-                                        </div>
-                                    )}
+                            ) : (
+                                <div>
                                 </div>
-                            </div>
-                            <div className="downRight" style={{ border: '1px solid pink' }}>
-                                <div className="form-group">
-                                    <h5 className="modal-title">Credit/MGT Reply 回覆</h5>
-                                </div>
-
-                            </div>
+                            )}
                         </div>
                     </div>
                     <div className="modal-footer">

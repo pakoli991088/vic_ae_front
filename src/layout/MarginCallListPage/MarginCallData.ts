@@ -20,6 +20,16 @@ export interface MarginCallData  {
     mergeAcNo: String,
     guaranteedAssets: String,
 
+    creditFollowUpResult : String,
+    creditRemark : String,
+    creditFollowUpPerson : String,
+    creditFollowUpDate : String,
+    mgtFollowUpResult : String,
+    mgtRemark : String,
+    mgtFollowUpPerson : String,
+    mgtFollowUpDate : String,
+    consecutiveDays : Number,
+
 }
 
 // export type SelectedData = {

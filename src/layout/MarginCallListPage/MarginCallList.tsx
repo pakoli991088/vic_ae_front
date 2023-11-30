@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import "./style.css"
-import { PopupForm } from "./Components/PopupForm/PopupForm";
-import { SelectedData } from "../../types";
+import { ReplyPopupForm } from "./Components/PopupForm/ReplyPopupForm";
 import Cookies from "js-cookie";
 import axios from "axios";
 import showNotification from "../Utils/Notification";
@@ -10,10 +9,9 @@ import { Navbar } from "../NavBar/Navbar";
 import jsPDF from 'jspdf'
 import autoTable, { CellInput, RowInput } from 'jspdf-autotable'
 import './Components/font/NotoSansTC-Medium-normal'
-
-
 import { url } from 'inspector';
 import path from 'path';
+import {CheckPopupForm} from "./Components/PopupForm/CheckPopupForm";
 
 export const MarginCallList = () => {
     const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -27,7 +25,8 @@ export const MarginCallList = () => {
     const [showHandleErrorAlert, setShowHandleErrorAlert] = useState(false);
     const [searchMarginACNo, setSearchMarginACNo] = useState<string>("");
     const [searchBarFollowUpResultType, setSearchBarFollowUpResultType] = useState("All");
-    const [isPopupOpen, setPopupOpen] = useState(false);
+    const [isReplyPopupOpen, setReplyPopupOpen] = useState(false);
+    const [isCheckPopupOpen, setCheckPopupOpen] = useState(false);
     const [viewOnly, setViewOnly] = useState(false);
 
     useEffect(() => {
@@ -40,15 +39,11 @@ export const MarginCallList = () => {
             unit: 'mm',
             format: 'a4',
         });
-
         // const myFont = '';
-
-
         // //     // add the font to jsPDF
         // doc.addFileToVFS("MyFont.ttf", myFont);
         // doc.addFont("MyFont.ttf", "MyFont", "normal");
         doc.setFont("NotoSansTC-Medium");
-
 
         const header = ['Notification Date', 'AC No', 'AC Name', 'Balance Amount', 'Stock Value', 'Margin Call Amount', 'Follow Up Result', 'Remark', 'Confirm Date'];
         const rowArr: RowInput[] = []
@@ -84,13 +79,23 @@ export const MarginCallList = () => {
     const handleErrorAlert = () => {
         showNotification({ type: 'error', message: notificationMessage })
     };
-    const openPopup = (data: MarginCallData, isViewOnly: boolean) => {
+    const openReplyPopup = (data: MarginCallData, isViewOnly: boolean) => {
         setSelectedData(data);
-        setPopupOpen(true);
+        setReplyPopupOpen(true);
         setViewOnly(isViewOnly);
     };
-    const closePopup = () => {
-        setPopupOpen(false);
+
+    const openCheckPopup = (data: MarginCallData, isViewOnly: boolean) => {
+        setSelectedData(data);
+        setCheckPopupOpen(true);
+        setViewOnly(isViewOnly);
+    };
+    const closeReplyPopup = () => {
+        setReplyPopupOpen(false);
+    };
+
+    const closeCheckPopup = () => {
+        setCheckPopupOpen(false);
     };
     const callGetDataAPi = () => {
         const token = Cookies.get('tempTokens');
@@ -228,38 +233,52 @@ export const MarginCallList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data && data.length > 0 ? data.map((item: MarginCallData, index) => (
-                        <tr key={index}>
-                            <td>{item.notificationDate}</td>
-                            <td>{item.acNo}</td>
-                            <td className="ac_name_width">{item.acName}</td>
-                            <td>{item.balanceAmount.toLocaleString()}</td>
-                            <td>{item.stockValue.toLocaleString()}</td>
-                            <td>{item.guaranteedAmount.toLocaleString()}</td>
-                            <td className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult ? item.followUpResult : "Please follow"}</td>
-                            <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark : ""}</td>
-                            <td className={item.remark ? 'text-success  fw-bold confirm_date_td_width' : 'text-dark'}>{item.confirmDate ? item.confirmDate : ""}</td>
-                            <td className="tdActionContainer" role="group" aria-label="Basic mixed styles example">
-                                    <button type="button" className="btn btn-primary m-1"
-                                        onClick={() => openPopup(item, true)}
-                                    >Check
-                                    </button>
-                                    {item.followUpResult === null && (  // 检查 followUpResult 是否有值
-                                        <button
-                                            type="button"
-                                            className="btn btn-dark m-1"
-                                            onClick={() => openPopup(item, false)}
-                                        >
-                                            Reply
-                                        </button>
-                                    )}
-                            </td>
-                        </tr>
-                    )) : null}
+                    {data && data.length >0 ? data.map((item : MarginCallData , index) => {
+                      let trClassName = '';
+                      if(item.consecutiveDays >2 && item.consecutiveDays < 5) {
+                          trClassName = 'trBootstrapTableStripedBGYellow' ;
+                      } else if (item.consecutiveDays > 4) {
+                          trClassName = 'trBootstrapTableStripedBGRed';
+                      } else {
+                          trClassName = 'trBootstrapTableStripedBGWhite';
+                      }
+                      return (
+                          <tr key={index} className={trClassName}>
+                              <td>{item.notificationDate}</td>
+                              <td>{item.acNo}</td>
+                              <td className="ac_name_width">{item.acName}</td>
+                              <td>{item.balanceAmount.toLocaleString()}</td>
+                              <td>{item.stockValue.toLocaleString()}</td>
+                              <td>{item.guaranteedAmount.toLocaleString()}</td>
+                              <td className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult ? item.followUpResult : "Please follow"}</td>
+                              <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark : ""}</td>
+                              <td className={item.remark ? 'text-success  fw-bold confirm_date_td_width' : 'text-dark'}>{item.confirmDate ? item.confirmDate : ""}</td>
+                              <td className="tdActionContainer" role="group" aria-label="Basic mixed styles example">
+                                  <button type="button" className="btn btn-primary m-1"
+                                          onClick={() => openCheckPopup(item, true)}
+                                  >Check
+                                  </button>
+                                  {item.followUpResult === null && (  // check followUp != null
+                                      <button
+                                          type="button"
+                                          className="btn btn-dark m-1"
+                                          onClick={() => openReplyPopup(item, false)}
+                                      >
+                                          Reply
+                                      </button>
+                                  )}
+                              </td>
+                          </tr>
+                      );
+                    })
+                    :null}
 
                     {/* Popup */}
-                    {isPopupOpen && selectedData !== null && (
-                        <PopupForm data={selectedData} onClose={closePopup} viewOnly={viewOnly} />
+                    {isCheckPopupOpen && selectedData !== null && (
+                        <CheckPopupForm data={selectedData} onClose={closeCheckPopup} viewOnly={viewOnly}/>
+                    )}
+                    {isReplyPopupOpen && selectedData !== null && (
+                        <ReplyPopupForm data={selectedData} onClose={closeReplyPopup} viewOnly={viewOnly} />
                     )}
                 </tbody>
             </table>
