@@ -7,7 +7,7 @@ import showNotification from "../Utils/Notification";
 import { MarginCallData } from "./MarginCallData";
 import { Navbar } from "../NavBar/Navbar";
 import jsPDF from 'jspdf'
-import autoTable, { CellInput, RowInput } from 'jspdf-autotable'
+import autoTable, {Cell, CellInput, CellWidthType, Column, RowInput} from 'jspdf-autotable'
 import './Components/font/NotoSansTC-Medium-normal'
 import { url } from 'inspector';
 import path from 'path';
@@ -47,6 +47,9 @@ export const MarginCallList = () => {
 
         const header = ['Notification Date', 'AC No', 'AC Name', 'Balance Amount', 'Stock Value', 'Margin Call Amount', 'Follow Up Result', 'Remark', 'Confirm Date'];
         const rowArr: RowInput[] = []
+        const column = {
+            width : 300,
+        }
         for (const item of data) {
             let x: CellInput = [
                 item.notificationDate ? item.notificationDate.toString() : "",
@@ -67,8 +70,11 @@ export const MarginCallList = () => {
             head: [header],
             body: rowArr,
             styles: {
-                font: "NotoSansTC-Medium"
-            }
+                font: "NotoSansTC-Medium",
+                overflow: 'linebreak',
+                fontSize : 8,
+                cellWidth : "wrap",
+            },
         })
         doc.save('table.pdf')
     }
