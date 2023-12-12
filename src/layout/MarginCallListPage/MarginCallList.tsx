@@ -45,7 +45,7 @@ export const MarginCallList = () => {
         // doc.addFont("MyFont.ttf", "MyFont", "normal");
         doc.setFont("NotoSansTC-Medium");
 
-        const header = ['Notification Date', 'AC No', 'AC Name', 'Balance Amount', 'Stock Value', 'Margin Call Amount', 'Follow Up Result', 'Remark', 'Confirm Date'];
+        const header = ['Notif Date', 'AC No', 'AC Name', 'Bal Amt', 'Stock Val', 'Margin Call Amt', 'AE f/u', 'AE Remark','Cr./MGT f/u','Cr./MGT Remark', 'Confirm Date'];
         const rowArr: RowInput[] = []
         const column = {
             width : 300,
@@ -60,6 +60,8 @@ export const MarginCallList = () => {
                 item.guaranteedAmount ? item.guaranteedAmount.toLocaleString() : "",
                 item.followUpResult ? decodeURI(encodeURI(item.followUpResult.toString())) : "",
                 item.remark ? item.remark.toString() : "",
+                item.mgtFollowUpResult ? item.mgtFollowUpResult.toString() : item.creditFollowUpResult ? item.creditFollowUpResult.toString() :"",
+                item.mgtFollowUpResult ? item.mgtRemark.toString() : item.creditFollowUpResult ? item.creditRemark.toString() : "",
                 item.confirmDate ? item.confirmDate.toString() : ""
             ];
             rowArr.push(x);
@@ -69,12 +71,49 @@ export const MarginCallList = () => {
         autoTable(doc, {
             head: [header],
             body: rowArr,
+            columnStyles: {
+                0: { // Define width for column 0
+                    cellWidth: 20 // Set the width for column 0
+                },
+                1: { // Define width for column 1
+                    cellWidth: 18 // Set the width for column 1
+                },
+                2: { // Define width for column 1
+                    cellWidth: 24 // Set the width for column 1
+                },
+                3: { // Define width for column 1
+                    cellWidth: 24 // Set the width for column 1
+                },
+                4: { // Define width for column 1
+                    cellWidth: 22 // Set the width for column 1
+                },
+                5: { // Define width for column 1
+                    cellWidth: 24 // Set the width for column 1
+                },
+                6: { // Define width for column 1
+                    cellWidth: 22 // Set the width for column 1
+                },
+                7: { // Define width for column 1
+                    cellWidth: 35 // Set the width for column 1
+                },
+                8: { // Define width for column 1
+                    cellWidth: 22 // Set the width for column 1
+                },
+                9: { // Define width for column 1
+                    cellWidth: 35 // Set the width for column 1
+                },
+                10: { // Define width for column 1
+                    cellWidth: 22 // Set the width for column 1
+                },
+                // Add more column widths as needed
+            },
             styles: {
                 font: "NotoSansTC-Medium",
                 overflow: 'linebreak',
                 fontSize : 8,
                 cellWidth : "wrap",
             },
+
         })
         doc.save('table.pdf')
     }
