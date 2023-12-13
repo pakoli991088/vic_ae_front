@@ -45,7 +45,7 @@ export const MarginCallList = () => {
         // doc.addFont("MyFont.ttf", "MyFont", "normal");
         doc.setFont("NotoSansTC-Medium");
 
-        const header = ['Notif Date', 'AC No', 'AC Name', 'Bal Amt', 'Stock Val', 'Margin Call Amt', 'AE f/u', 'AE Remark','Cr./MGT f/u','Cr./MGT Remark', 'Confirm Date'];
+        const header = ['通知日期 Notif Date', '帳戶號碼 AC No', '帳戶名稱 AC Name', '結欠金額 Bal Amt', '股票市值 Stock Val', '追收保證金額 Margin Call Amt', 'AE跟進結果 AE f/u', 'AE備註 AE Remark','AE確認日期 AE Confirm Date','信貸/管理層跟進結果 Cr./MGT f/u','信貸/管理層備註 Cr./MGT Remark','信貸/管理層確認日期Cr./MGT Confirm Date'];
         const rowArr: RowInput[] = []
         const column = {
             width : 300,
@@ -60,50 +60,53 @@ export const MarginCallList = () => {
                 item.guaranteedAmount ? item.guaranteedAmount.toLocaleString() : "",
                 item.followUpResult ? decodeURI(encodeURI(item.followUpResult.toString())) : "",
                 item.remark ? item.remark.toString() : "",
+                item.confirmDate ? item.confirmDate.toString() : "",
                 item.mgtFollowUpResult ? item.mgtFollowUpResult.toString() : item.creditFollowUpResult ? item.creditFollowUpResult.toString() :"",
                 item.mgtFollowUpResult ? item.mgtRemark.toString() : item.creditFollowUpResult ? item.creditRemark.toString() : "",
-                item.confirmDate ? item.confirmDate.toString() : ""
+                item.mgtFollowUpResult ? item.mgtFollowUpDate.toString() : item.creditFollowUpResult ? item.creditFollowUpDate.toString() : "" ,
             ];
             rowArr.push(x);
         }
-        console.log(rowArr)
         // Or use javascript directly:
         autoTable(doc, {
             head: [header],
             body: rowArr,
             columnStyles: {
                 0: { // Define width for column 0
-                    cellWidth: 20 // Set the width for column 0
+                    cellWidth: 22 // Set the width for column 0
                 },
                 1: { // Define width for column 1
-                    cellWidth: 18 // Set the width for column 1
+                    cellWidth: 22 // Set the width for column 1
                 },
                 2: { // Define width for column 1
-                    cellWidth: 24 // Set the width for column 1
+                    cellWidth: 22 // Set the width for column 1
                 },
                 3: { // Define width for column 1
-                    cellWidth: 24 // Set the width for column 1
+                    cellWidth: 22 // Set the width for column 1
                 },
                 4: { // Define width for column 1
                     cellWidth: 22 // Set the width for column 1
                 },
                 5: { // Define width for column 1
-                    cellWidth: 24 // Set the width for column 1
+                    cellWidth: 22 // Set the width for column 1
                 },
                 6: { // Define width for column 1
                     cellWidth: 22 // Set the width for column 1
                 },
                 7: { // Define width for column 1
-                    cellWidth: 35 // Set the width for column 1
+                    cellWidth: 23 // Set the width for column 1
                 },
                 8: { // Define width for column 1
-                    cellWidth: 22 // Set the width for column 1
+                    cellWidth: 23 // Set the width for column 1
                 },
                 9: { // Define width for column 1
-                    cellWidth: 35 // Set the width for column 1
+                    cellWidth: 23 // Set the width for column 1
                 },
                 10: { // Define width for column 1
-                    cellWidth: 22 // Set the width for column 1
+                    cellWidth: 23 // Set the width for column 1
+                },
+                11: { // Define width for column 1
+                    cellWidth: 23 // Set the width for column 1
                 },
                 // Add more column widths as needed
             },
@@ -161,11 +164,11 @@ export const MarginCallList = () => {
                                 if (dataResponse.data.status === "failed") {
                                     setNotificationMessage(dataResponse.data.msg);
                                     setShowHandleErrorAlert(true);
-                                    console.log(searchBarFollowUpResultType);
+                                    // console.log(searchBarFollowUpResultType);
                                     return;
                                 }
                                 setData(dataResponse.data.data);
-                                console.log(dataResponse.data.data);
+                                // console.log(dataResponse.data.data);
                             })
                             .catch((error) => {
                                 setNotificationMessage(error.message);
@@ -176,7 +179,6 @@ export const MarginCallList = () => {
                         // 你可以使用 react-router-dom 进行重定向
                         // 例如: history.push('/login') 或 window.location.href = '/login'
                         // 或显示错误消息并从 Cookie 中删除 token
-                        console.log("456");
                         Cookies.remove('tempTokens');
                         setNotificationMessage(response.data.msg);
                         setShowHandleErrorAlert(true);
@@ -279,6 +281,7 @@ export const MarginCallList = () => {
                 </thead>
                 <tbody>
                     {data && data.length >0 ? data.map((item : MarginCallData , index) => {
+                        console.log(data);
                       let trClassName = '';
                       if(item.consecutiveDays >2 && item.consecutiveDays < 5) {
                           trClassName = 'trBootstrapTableStripedBGYellow' ;
@@ -288,17 +291,17 @@ export const MarginCallList = () => {
                           trClassName = 'trBootstrapTableStripedBGWhite';
                       }
                       return (
-                          <tr key={index} className={trClassName}>
-                              <td>{item.notificationDate}</td>
-                              <td>{item.acNo}</td>
-                              <td className="ac_name_width">{item.acName}</td>
-                              <td>{item.balanceAmount.toLocaleString()}</td>
-                              <td>{item.stockValue.toLocaleString()}</td>
-                              <td>{item.guaranteedAmount.toLocaleString()}</td>
-                              <td className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult ? item.followUpResult : "Please follow"}</td>
-                              <td className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark : ""}</td>
-                              <td className={item.remark ? 'text-success  fw-bold confirm_date_td_width' : 'text-dark'}>{item.confirmDate ? item.confirmDate : ""}</td>
-                              <td className="tdActionContainer" role="group" aria-label="Basic mixed styles example">
+                          <tr key={index}>
+                              <td id={trClassName}>{item.notificationDate}</td>
+                              <td id={trClassName}>{item.acNo}</td>
+                              <td id={trClassName} className="ac_name_width">{item.acName}</td>
+                              <td id={trClassName}>{item.balanceAmount.toLocaleString()}</td>
+                              <td id={trClassName}>{item.stockValue.toLocaleString()}</td>
+                              <td id={trClassName}>{item.guaranteedAmount.toLocaleString()}</td>
+                              <td id={trClassName} className={item.followUpResult ? 'text-primary fw-bold' : 'text-danger fw-bold'}>{item.followUpResult ? item.followUpResult : "Please follow"}</td>
+                              <td id={trClassName} className={item.remark ? 'text-success  fw-bold' : 'text-dark'}>{item.remark ? item.remark : ""}</td>
+                              <td id={trClassName} className={item.remark ? 'text-success  fw-bold confirm_date_td_width' : 'text-dark'}>{item.confirmDate ? item.confirmDate : ""}</td>
+                              <td id={trClassName} className="tdActionContainer" role="group" aria-label="Basic mixed styles example">
                                   <button type="button" className="btn btn-primary m-1"
                                           onClick={() => openCheckPopup(item, true)}
                                   >Check

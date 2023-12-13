@@ -1,15 +1,17 @@
-.trBootstrapTableStripedBGWhite {
+#trBootstrapTableStripedBGWhite {
     --bs-table-striped-bg : white; /* 設置表格斑馬紋的背景顏色 */
     --bs-table-hover-bg : #bdbcbc;
 }
 
-.trBootstrapTableStripedBGYellow {
-    --bs-table-striped-bg : #fcd626; /* 設置表格斑馬紋的背景顏色 */
+#trBootstrapTableStripedBGYellow {
+    background-color: yellow;
+    --bs-table-striped-bg : yellow; /* 設置表格斑馬紋的背景顏色 */
     --bs-table-hover-bg : #bdbcbc;
 }
 
-.trBootstrapTableStripedBGRed {
-    --bs-table-striped-bg : #e18585; /* 設置表格斑馬紋的背景顏色 */
+#trBootstrapTableStripedBGRed {
+    background-color: darksalmon;
+    --bs-table-striped-bg : darksalmon; /* 設置表格斑馬紋的背景顏色 */
     --bs-table-hover-bg : #bdbcbc;
 }
 
