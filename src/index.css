@@ -10,3 +10,43 @@ body {
 code {
   font-family: 'Noto Sans TC', sans-serif;
 }
+
+.changePasswordContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  margin-top: 20px;
+}
+
+.changePasswordContent {
+  display : flex;
+  flex-direction: column;
+  margin: 20px;
+  justify-content: center;
+}
+
+.changePasswordLabelAndInputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.changePasswordLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.changePasswordInput {
+  display: flex;
+  flex-direction: column;
+}
+
+.changePasswordButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.changePasswordButton {
+  margin: 10px;
+}

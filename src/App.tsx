@@ -4,6 +4,7 @@ import {MarginCallList} from "./layout/MarginCallListPage/MarginCallList";
 import {Route, Switch} from "react-router-dom";
 import {HomePage} from "./layout/HomePage/HomePage";
 import {Navbar} from "./layout/NavBar/Navbar";
+import {ChangePasswordPage} from "./layout/ChangePasswordPage/ChangePasswordPage";
 
 export const App = () => {
     return (
@@ -17,6 +18,11 @@ export const App = () => {
                     <Route path='/margin-call'>
                         <MarginCallList/>
                     </Route>
+
+                    <Route path='/change-password'>
+                        <ChangePasswordPage/>
+                    </Route>
+
                 </Switch>
             </div>
         </div>
