@@ -67,6 +67,7 @@ export const ChangePasswordPage = () => {
                 setNotificationMessage("Password updated successfully");
                 setShowHandleSuccessAlert(true);
                 handleResetButton();
+                Cookies.set('isAEFirstLogin',"false", {expires:1})
             } else if (response.data.status === "failed") {
                 setNotificationMessage(response.data.msg);
                 setShowHandleErrorAlert(true);

@@ -13,6 +13,7 @@ export const LoginForm = () => {
     const [notificationMessage,setNotificationMessage] = useState("default error")
     const [showHandleSuccessAlert , setShowHandleSuccessAlert] = useState(false);
     const [showHandleErrorAlert , setShowHandleErrorAlert] = useState(false);
+
     const handleSuccessAlert = () => {
         showNotification({type: 'success', message: notificationMessage})
     };
@@ -63,6 +64,7 @@ export const LoginForm = () => {
                 // console.log(response);
                 // 登錄成功，處理響應
                 if (response.data.status === "success") {
+                    console.log(response.data.data);
                     Cookies.set('isAEFirstLogin',response.data.data.isFirstLogin, {expires:1})
                     Cookies.set('tempTokens', response.data.data.tempTokens, { expires: 1 });
                     Cookies.set('username', response.data.data.name, { expires: 1 });
@@ -73,6 +75,8 @@ export const LoginForm = () => {
                     }
                     setNotificationMessage("login success");
                     setShowHandleSuccessAlert(true);
+
+
                     const isFirstLogin = Cookies.get('isAEFirstLogin');
                     if(isFirstLogin === "true") {
                         window.location.href = '/change-password';
