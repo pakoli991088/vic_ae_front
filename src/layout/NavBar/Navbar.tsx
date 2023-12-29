@@ -18,6 +18,7 @@ export const Navbar = () => {
             // 清除 Cookies 中的 username 和 tempTokens
             Cookies.remove("username");
             Cookies.remove("tempTokens");
+            Cookies.remove("isAEFirstLogin")
         }
         // 重定向到登录页面
         window.location.href = "/";
@@ -30,7 +31,7 @@ export const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light  background-color-blue">
             <div className="container d-flex">
-                <a className="navbar-brand" href="#">
+                <a className="navbar-brand" href="/margin-call">
                     <img src={companyLogo} className="d-inline-block align-top custom_navbar" alt="Company Logo"/>
                 </a>
 

@@ -203,6 +203,10 @@ export const MarginCallList = () => {
     }
 
     useEffect(() => {
+        const isFirstLogin = Cookies.get('isAEFirstLogin');
+        if(isFirstLogin === "true") {
+            window.location.href = '/change-password';
+        }
         callGetDataAPi();
     }, []);
 

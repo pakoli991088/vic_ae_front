@@ -63,6 +63,7 @@ export const LoginForm = () => {
                 // console.log(response);
                 // 登錄成功，處理響應
                 if (response.data.status === "success") {
+                    Cookies.set('isAEFirstLogin',response.data.data.isFirstLogin, {expires:1})
                     Cookies.set('tempTokens', response.data.data.tempTokens, { expires: 1 });
                     Cookies.set('username', response.data.data.name, { expires: 1 });
                     // 將 email 存儲到本地存儲，如果 "Remember me" 被勾選
@@ -72,8 +73,12 @@ export const LoginForm = () => {
                     }
                     setNotificationMessage("login success");
                     setShowHandleSuccessAlert(true);
-                    // 跳轉到 '/margin-call' 路由
-                    window.location.href = '/margin-call';
+                    const isFirstLogin = Cookies.get('isAEFirstLogin');
+                    if(isFirstLogin === "true") {
+                        window.location.href = '/change-password';
+                    } else {
+                        window.location.href = '/margin-call';
+                    }
                 } else {
                     // when login fail set the latest error message
                     setNotificationMessage(response.data.msg);
