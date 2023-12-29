@@ -1,3 +1,4 @@
+// @ts-ignore
 import companyLogo from "./image/ae_logo.png";
 import React, {useState} from "react";
 import "./style.css";
@@ -46,6 +47,7 @@ export const Navbar = () => {
                         </button>
                         <ul className="dropdown-menu">
                             <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
+                            <li><a className="dropdown-item" href="/change-password" >Change password</a></li>
                             {/*<li><a className="dropdown-item" href="#">Another action</a></li>*/}
                             {/*<li><a className="dropdown-item" href="#">Something else here</a></li>*/}
                         </ul>

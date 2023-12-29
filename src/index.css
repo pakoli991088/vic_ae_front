@@ -50,3 +50,8 @@ code {
 .changePasswordButton {
   margin: 10px;
 }
+
+.passwordMention {
+  color: orangered;
+  font-size: 12px;
+}
