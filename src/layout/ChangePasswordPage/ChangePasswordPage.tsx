@@ -35,9 +35,10 @@ export const ChangePasswordPage = () => {
 
     const handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        console.log('oldPassword submitted:', oldPassword);
-        console.log('newPassword submitted:', newPassword);
-        console.log('confirmNewPassword submitted:', confirmNewPassword);
+        const token = Cookies.get('tempTokens');
+        // console.log('oldPassword submitted:', oldPassword);
+        // console.log('newPassword submitted:', newPassword);
+        // console.log('confirmNewPassword submitted:', confirmNewPassword);
         if (newPassword.length < 8 || newPassword.length > 20) {
             setNotificationMessage("New password must be no less than 8 characters and no more than 20 characters in length");
             setShowHandleErrorAlert(true);
@@ -48,6 +49,31 @@ export const ChangePasswordPage = () => {
             setShowHandleErrorAlert(true);
             return;
         }
+        if (oldPassword === newPassword) {
+            setNotificationMessage("The new password cannot be the same as the old password.");
+            setShowHandleErrorAlert(true);
+            return;
+        }
+        axios.post(`${apiBaseUrl}/user/change-password`, {
+            token : token,
+            oldPassword : oldPassword,
+            newPassword : newPassword,
+            confirmNewPassword : confirmNewPassword
+        }).then((response) => {
+            if (response.data.status === "success") {
+                setNotificationMessage("Password updated successfully");
+                setShowHandleSuccessAlert(true);
+                handleResetButton();
+            } else if (response.data.status === "failed") {
+                setNotificationMessage(response.data.msg);
+                setShowHandleErrorAlert(true);
+                handleResetButton();
+            } else {
+                setNotificationMessage(response.data.msg);
+                setShowHandleErrorAlert(true);
+                handleResetButton();
+            }
+        })
     };
 
     useEffect(() => {
