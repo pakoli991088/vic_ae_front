@@ -36,9 +36,12 @@ export const ChangePasswordPage = () => {
     const handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         const token = Cookies.get('tempTokens');
-        // console.log('oldPassword submitted:', oldPassword);
-        // console.log('newPassword submitted:', newPassword);
-        // console.log('confirmNewPassword submitted:', confirmNewPassword);
+        if((oldPassword === null || oldPassword === "") || (newPassword === null || newPassword === "") ||
+            (confirmNewPassword === null || confirmNewPassword === "")) {
+            setNotificationMessage("Please fill in all empty fields.");
+            setShowHandleErrorAlert(true);
+            return;
+        }
         if (newPassword.length < 8 || newPassword.length > 20) {
             setNotificationMessage("New password must be no less than 8 characters and no more than 20 characters in length");
             setShowHandleErrorAlert(true);
