@@ -59,7 +59,8 @@ export const ReplyPopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
                             stockNo: stockNo,
                             stockQty: stockQty,
                             mergeAcNo: mergeAcNo,
-                            guaranteedAssets: guaranteedAssets
+                            guaranteedAssets: guaranteedAssets,
+                            isUpdateFromExternal : false
                         })
                             .then((dataResponse) => {
                                 console.log("update successfully");
@@ -70,7 +71,7 @@ export const ReplyPopupForm = ({ data, onClose, viewOnly }: PopupFormProps) => {
                             })
                             .catch((error) => {
                                 console.log("update failed");
-                                setNotificationMessage("updated fail . " + error.get().message);
+                                setNotificationMessage("updated fail . " + error.message);
                                 setShowHandleErrorAlert(true);
                             })
                     } else {
