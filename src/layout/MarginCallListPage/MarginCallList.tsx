@@ -192,10 +192,10 @@ export const MarginCallList = () => {
                 });
         } else {
 
-            {/*未找到 token，可能需要重定向到登录页面
-            你可以使用 react-router-dom 进行重定向
-            例如: history.push('/login') 或 window.location.href = '/login'*/
-            }
+            // {/*未找到 token，可能需要重定向到登录页面
+            // 你可以使用 react-router-dom 进行重定向
+            // 例如: history.push('/login') 或 window.location.href = '/login'*/
+            // }
             setNotificationMessage("Please login");
             setShowHandleErrorAlert(true);
             window.location.href = '/'
