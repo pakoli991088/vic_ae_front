@@ -1,16 +1,20 @@
 // @ts-ignore
 import companyLogo from "./image/ae_logo.png";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./style.css";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 export const Navbar = () => {
+    const [user, setUser] = useState(null);
+    const [isAdmin,setIsAdmin] = useState(false);
     const username = Cookies.get("username");
-    const tempTokens = Cookies.get("tempTokens");
+    const token = Cookies.get("tempTokens");
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const today = new Date();
     const options = {timeZone: 'Asia/Hong_Kong'};
     const hkDateTime = today.toLocaleString('en-HK', {...options, day: '2-digit', month: '2-digit', year: 'numeric',});
+    const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 
     const handleLogout = () => {
@@ -23,6 +27,22 @@ export const Navbar = () => {
         // 重定向到登录页面
         window.location.href = "/";
     };
+
+    useEffect(() => {
+        if (token) {
+            axios.post(`${apiBaseUrl}/user/verify-token`, {token})
+                .then((response) => {
+                    if (response.data.status === "success") {
+                        setIsAdmin(response.data.data.roles.some((role: { name: string; }) => role.name === 'ROLE_ADMIN'));
+                        console.log(response.data.data);
+                    } else {
+                        window.location.href = "/";
+                    }
+                })
+        } else {
+            window.location.href = "/";
+        }
+    }, []);
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
@@ -39,16 +59,20 @@ export const Navbar = () => {
                 <span className="text-dark ms-auto  navbar_span">{hkDateTime}&nbsp;&nbsp;&nbsp;</span>
 
 
-                {username && tempTokens && (
+                {username && token && (
                     <div className="dropdown">
-                        <button className="btn btn-secondary dropdown-toggle background-color-blue button_hover text-dark"
-                                type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
+                        <button
+                            className="btn btn-secondary dropdown-toggle background-color-blue button_hover text-dark"
+                            type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
                             {username}
                         </button>
                         <ul className="dropdown-menu">
                             <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
-                            <li><a className="dropdown-item" href="/change-password" >Change password</a></li>
+                            <li><a className="dropdown-item" href="/change-password">Change password</a></li>
+                            {isAdmin && (
+                                <li><a className="dropdown-item" href="/reset-password">Reset Password</a></li>
+                            )}
                             {/*<li><a className="dropdown-item" href="#">Another action</a></li>*/}
                             {/*<li><a className="dropdown-item" href="#">Something else here</a></li>*/}
                         </ul>
