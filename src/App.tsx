@@ -5,6 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import {HomePage} from "./layout/HomePage/HomePage";
 import {Navbar} from "./layout/NavBar/Navbar";
 import {ChangePasswordPage} from "./layout/ChangePasswordPage/ChangePasswordPage";
+import {ResetPasswordPage} from "./layout/ResetPasswordPage/ResetPasswordPage";
 
 export const App = () => {
     return (
@@ -21,6 +22,10 @@ export const App = () => {
 
                     <Route path='/change-password'>
                         <ChangePasswordPage/>
+                    </Route>
+
+                    <Route path='/reset-password'>
+                        <ResetPasswordPage/>
                     </Route>
 
                 </Switch>

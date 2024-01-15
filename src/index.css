@@ -55,3 +55,20 @@ code {
   color: orangered;
   font-size: 12px;
 }
+
+.resetPasswordContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: space-around;
+}
+
+.resetPasswordInputField {
+  width: 45%;
+}
+
+.resetPasswordButtonContainer {
+  display: flex;
+  margin: 10px;
+  justify-content: flex-end;
+}
