@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 export const Navbar = () => {
+    //test
     const [user, setUser] = useState(null);
     const [isAdmin,setIsAdmin] = useState(false);
     const username = Cookies.get("username");
